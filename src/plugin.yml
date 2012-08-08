@@ -1,0 +1,9 @@
+version: 1.0
+name: MineBuilderExp
+
+main: me.eistee2.minebuilder.MineBuilder
+
+commands:
+  reminer:
+    description: Reload config.
+    usage: /<command>
