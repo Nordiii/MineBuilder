@@ -114,7 +114,7 @@ public class ReadOut {
 		case 5:
 			for (String block : moneyRandoms) 
 			{
-				if (block.indexOf("ItemID;"+name+":") > -1 || block.indexOf("ItemID;"+id+":") > -1)
+				if (block.indexOf(name+":") > -1 || block.indexOf(id+":") > -1)
 				{
 					BlockBack = block;
 				}
@@ -187,7 +187,7 @@ public class ReadOut {
 		case 5:
 			for (String block : expRandoms) 
 			{
-				if (block.indexOf("ItemID;"+name+":") > -1 || block.indexOf("ItemID;"+id+":") > -1)
+				if (block.indexOf(name+":") > -1 || block.indexOf(id+":") > -1)
 				{
 					BlockBack = block;
 				}
