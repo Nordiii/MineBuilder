@@ -121,8 +121,8 @@ public class configer {
 					   +"---------------------"+freizeile+"Break Block:"+freizeile+"---------------------"
 					   +freizeile+"Stone"+freizeile+"ItemID;1:10:10"+freizeile+freizeile+"Coal ore"+freizeile+"ItemID;16:5:6"+freizeile+freizeile+"Gold ore"+freizeile+"ItemID;14:6:3"+freizeile
 					   +freizeile+"Iron ore"+freizeile+"ItemID;15:4:3"+freizeile+freizeile+"Lapis ore"+freizeile+"ItemID;21:6:4"+freizeile+freizeile+"Netherrack"+freizeile+"ItemID;87:5:15"+freizeile
-					   +freizeile+"Glowstone"+freizeile+"ItemID;89:5:4"+freizeile+freizeile+"Soul Sand"+freizeile+"ItemID;88:5:10"+freizeile+freizeile+"Nether brick"+freizeile+"ItemID;112:5:10"+freizeile+freizeile
-					   +freizeile+"Redstone"+freizeile+"ItemID;74:4:8"+freizeile+freizeile+"Diamond ore"+freizeile+"ItemID;56:20:1"+freizeile+freizeile+"Obsidian"+freizeile+"ItemID;49:6:1"+freizeile+freizeile
+					   +freizeile+"Glowstone"+freizeile+"ItemID;89:5:4"+freizeile+freizeile+"Soul Sand"+freizeile+"ItemID;88:5:10"+freizeile+freizeile+"Nether brick"+freizeile+"ItemID;112:5:10"+freizeile
+					   +freizeile+"Redstone"+freizeile+"ItemID;74:4:8"+freizeile+freizeile+"Diamond ore"+freizeile+"ItemID;56:20:1"+freizeile+freizeile+"Emerald"+freizeile+"ItemID;129:10:2"+freizeile+freizeile+"Obsidian"+freizeile+"ItemID;49:6:1"+freizeile+freizeile
 					   
                        +"---------------------"+freizeile+"Place Block:"+freizeile+"---------------------"
                        +freizeile+"Dirt"+freizeile+"ItemID;3:4:1"+freizeile+freizeile+"Wood"+freizeile+"ItemID;17:4:3"+freizeile+freizeile+"Wooden Planks"+freizeile+"ItemID;5:2:7"+freizeile+freizeile+"Wool"+freizeile+"ItemID;35:4:10"+freizeile
@@ -174,8 +174,8 @@ public class configer {
 					   +"---------------------"+freizeile+"Break Block:"+freizeile+"---------------------"
 					   +freizeile+"Stone"+freizeile+"ItemID;1:10:10"+freizeile+freizeile+"Coal ore"+freizeile+"ItemID;16:5:6"+freizeile+freizeile+"Gold ore"+freizeile+"ItemID;14:6:3"+freizeile
 					   +freizeile+"Iron ore"+freizeile+"ItemID;15:4:3"+freizeile+freizeile+"Lapis ore"+freizeile+"ItemID;21:6:4"+freizeile+freizeile+"Netherrack"+freizeile+"ItemID;87:5:15"+freizeile
-					   +freizeile+"Glowstone"+freizeile+"ItemID;89:5:4"+freizeile+freizeile+"Soul Sand"+freizeile+"ItemID;88:5:10"+freizeile+freizeile+"Nether brick"+freizeile+"ItemID;112:5:10"+freizeile+freizeile
-					   +freizeile+"Redstone"+freizeile+"ItemID;74:4:8"+freizeile+freizeile+"Diamond ore"+freizeile+"ItemID;56:20:1"+freizeile+freizeile+"Obsidian"+freizeile+"ItemID;49:6:1"+freizeile+freizeile
+					   +freizeile+"Glowstone"+freizeile+"ItemID;89:5:4"+freizeile+freizeile+"Soul Sand"+freizeile+"ItemID;88:5:10"+freizeile+freizeile+"Nether brick"+freizeile+"ItemID;112:5:10"+freizeile
+					   +freizeile+"Redstone"+freizeile+"ItemID;74:4:8"+freizeile+freizeile+"Diamond ore"+freizeile+"ItemID;56:20:1"+freizeile+freizeile+"Emerald"+freizeile+"ItemID;129:10:2"+freizeile+freizeile+"Obsidian"+freizeile+"ItemID;49:6:1"+freizeile+freizeile
 					   
                        +"---------------------"+freizeile+"Place Block:"+freizeile+"---------------------"
                        +freizeile+"Dirt"+freizeile+"ItemID;3:4:1"+freizeile+freizeile+"Wood"+freizeile+"ItemID;17:4:3"+freizeile+freizeile+"Wooden Planks"+freizeile+"ItemID;5:2:7"+freizeile+freizeile+"Wool"+freizeile+"ItemID;35:4:10"+freizeile

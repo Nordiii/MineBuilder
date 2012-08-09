@@ -20,6 +20,8 @@ public class playerPlaceBlock implements Listener {
 	//Counting exp
 	expCalculator expCal = new expCalculator();
 	
+	//get instance for saving blocks
+	BlockSaver save = BlockSaver.getInstance();
 	
 	Plugin wg = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 	Plugin ma = Bukkit.getServer().getPluginManager().getPlugin("MobArena");
@@ -66,13 +68,18 @@ public class playerPlaceBlock implements Listener {
 				return;
 			}
 		}
+		
+		if(info.getMaxBlockSaved() != 0)
+		{
+			save.addLocation(event.getBlock().getLocation());
+		}
+		
 		if(info.getPermissionStat() == true)
 		{
 			if(!event.getPlayer().hasPermission("minebuilder.vip")){
 				return;
 			}
 		}
-		
 		//Get BlockID/name and player name
 		int blockID = event.getBlock().getTypeId();
 		String blockName = event.getBlock().getType().toString();

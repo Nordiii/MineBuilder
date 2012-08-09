@@ -5,7 +5,6 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,6 +14,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class MineBuilder extends JavaPlugin{
 //Events
+	playerExpChange expChange = new playerExpChange();
 	playerJoinQuit joinquit = playerJoinQuit.getInstance();
 	playerBreakBlock breakBlock = new playerBreakBlock();
 	playerPlaceBlock placeBlock = new playerPlaceBlock();
@@ -85,6 +85,8 @@ public class MineBuilder extends JavaPlugin{
 		setupEconomy();
 		}
 		//register events
+		Bukkit.getServer().getPluginManager().registerEvents(expChange, this);
+		
 		Bukkit.getServer().getPluginManager().registerEvents(joinquit, this);
 		
 		breakBlock.iniInts();

@@ -21,6 +21,8 @@ public class playerBreakBlock implements Listener {
 	//Counting exp
 	expCalculator expCal = new expCalculator();
 	
+	//get instance from Blocksaving
+	BlockSaver delete = BlockSaver.getInstance();
 	
 	Plugin wg = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 	Plugin ma = Bukkit.getServer().getPluginManager().getPlugin("MobArena");
@@ -68,6 +70,10 @@ public class playerBreakBlock implements Listener {
 				return;
 			}
 		}
+		if(delete.checkLocation(event.getBlock().getLocation()) == true)
+		{
+			return;
+		}		
 		if(info.getPermissionStat() == true)
 		{
 			if(!event.getPlayer().hasPermission("minebuilder.vip")){
@@ -79,6 +85,41 @@ public class playerBreakBlock implements Listener {
 		int blockID = event.getBlock().getTypeId();
 		String blockName = event.getBlock().getType().toString();
 		int playerID = playerList.getPlayerIndex(event.getPlayer().getName());
+
+		//This is for peoples which add seeds to the config
+		if(blockName.equalsIgnoreCase("CROPS"))
+		{
+			if(event.getBlock().getData() != 7)
+			{
+				return;
+			}
+		}
+		
+		if(blockName.equalsIgnoreCase("MELON_STEM"))
+		{
+			if(event.getBlock().getData() != 7)
+			{
+				return;
+			}
+		}
+		
+		if(blockName.equalsIgnoreCase("PUMPKIN_STEM"))
+		{
+			if(event.getBlock().getData() != 7)
+			{
+				return;
+			}
+		}
+		
+		if(blockName.equalsIgnoreCase("COCOA"))
+		{
+			if(event.getBlock().getData() < 7)
+			{
+				return;
+			}
+		}
+			
+			
 		//Give exp
 		if(info.getExpBoolean(booleanID)==true)
 		{
@@ -103,21 +144,23 @@ public class playerBreakBlock implements Listener {
 				if(replays == 1)
 				{
 					exp = expCal.CalculateExp(event.getPlayer().getLevel(), exp, event.getPlayer().getName());
-					event.getPlayer().giveExp(exp);
+					event.setExpToDrop(exp);
 				}
 				else if(expArray[playerID][info.getExpIndex(booleanID, blockInfo)] == -1)
 				{
+					event.setExpToDrop(0);
 					expArray[playerID][info.getExpIndex(booleanID, blockInfo)] = replays-1;
 				}
 				else if(expArray[playerID][info.getExpIndex(booleanID, blockInfo)] > 0)
 				{
+					event.setExpToDrop(0);
 					expArray[playerID][info.getExpIndex(booleanID, blockInfo)] -= 1;
 				}
 				
 				if(expArray[playerID][info.getExpIndex(booleanID, blockInfo)] == 0)
 				{
 					exp = expCal.CalculateExp(event.getPlayer().getLevel(), exp, event.getPlayer().getName());
-					event.getPlayer().giveExp(exp);
+					event.setExpToDrop(exp);
 					expArray[playerID][info.getExpIndex(booleanID, blockInfo)] = replays;
 					
 				}

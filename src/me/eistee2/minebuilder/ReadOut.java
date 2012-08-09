@@ -241,6 +241,11 @@ public class ReadOut {
 		return maxPlayer;
 	}
 	
+	public int getMaxBlockSaved()
+	{
+		return maxBlockSave;
+	}
+	
 	public int getMaxLevel()
 	{
 		return maxLvl;
@@ -252,7 +257,7 @@ public class ReadOut {
 	}
 	
 	private	int maxPlayer; //This will be the size of the ints where i save every thing
-	private	String maxBlockSave = ""; // This says how much blocks will get saved before the first ones get deleted
+	private	int maxBlockSave; // This says how much blocks will get saved before the first ones get deleted
 	
 	private	int vipPercentage;
     private	boolean permissions = false;
@@ -284,7 +289,8 @@ public class ReadOut {
 			}
 			if(SettingsContentSplit[x].contains("MAXblocksaved:"))
 			{
-				maxBlockSave = SettingsContentSplit[x];	
+				String[] maxBlockSplit =  SettingsContentSplit[x].split(":");
+				maxBlockSave = Integer.parseInt(maxBlockSplit[1]);
 			}
 			if(SettingsContentSplit[x].contains("Use Permissions:true"))
 			{
@@ -363,6 +369,11 @@ public class ReadOut {
 	{
 		String ExpContent = ExpConfig.fileGetContent();
 		String[] ExpContentSplit = ExpContent.split("\n");
+		
+		expRandoms.removeAll(expRandoms);
+		expBreak.removeAll(expBreak);
+		expPlace.removeAll(expPlace);
+		expSlainEntity.removeAll(expSlainEntity);
 		
 		for(int x = 0; x < ExpContentSplit.length; x++)
 		{
@@ -470,6 +481,11 @@ public class ReadOut {
 	{
 		String MoneyContent = MoneyConfig.fileGetContent();
 		String[] MoneyContentSplit = MoneyContent.split("\n");
+		
+		moneyRandoms.removeAll(moneyRandoms);
+		moneyBreak.removeAll(moneyBreak);
+		moneyPlace.removeAll(moneyPlace);
+		moneySlainEntity.removeAll(moneySlainEntity);
 		
 		for(int x = 0; x < MoneyContentSplit.length; x++)
 		{
