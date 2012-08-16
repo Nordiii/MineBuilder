@@ -16,9 +16,9 @@ public class ReadOut {
 		return instance;
 	}
 	
-	private	configer Settings = new configer("plugins/MineBuilder[Exp]","plugins/MineBuilder[Exp]/Settings.yml");
-	private	configer ExpConfig = new configer("plugins/MineBuilder[Exp]","plugins/MineBuilder[Exp]/ExpConfig.yml");
-	private	configer MoneyConfig = new configer("plugins/MineBuilder[Exp]","plugins/MineBuilder[Exp]/MoneyConfig.yml");
+	private	configer Settings = new configer("plugins/MineBuilder","plugins/MineBuilder/Settings.yml");
+	private	configer ExpConfig = new configer("plugins/MineBuilder","plugins/MineBuilder/ExpConfig.yml");
+	private	configer MoneyConfig = new configer("plugins/MineBuilder","plugins/MineBuilder/MoneyConfig.yml");
 
 	
 	public void ReadAll()
@@ -114,7 +114,7 @@ public class ReadOut {
 		case 5:
 			for (String block : moneyRandoms) 
 			{
-				if (block.indexOf(name+":") > -1 || block.indexOf(id+":") > -1)
+				if (block.indexOf(name+";") > -1 || block.indexOf(id+";") > -1)
 				{
 					BlockBack = block;
 				}
@@ -187,7 +187,7 @@ public class ReadOut {
 		case 5:
 			for (String block : expRandoms) 
 			{
-				if (block.indexOf(name+":") > -1 || block.indexOf(id+":") > -1)
+				if (block.indexOf(name+";") > -1 || block.indexOf(id+";") > -1)
 				{
 					BlockBack = block;
 				}
@@ -256,6 +256,26 @@ public class ReadOut {
 		return useLvl;
 	}
 	
+	public boolean getSpawnOrbs(int which)
+	{
+		boolean end = false;
+		switch(which)
+		{
+		case 1:
+			end = breakSpawnOrbs;
+			break;
+		case 2:
+			end = placeSpawnOrbs;
+			break;
+		}
+		return end;
+	}
+	
+	public boolean getBlockSaveFileBoolean()
+	{
+		return saveToFile;
+	}
+	
 	private	int maxPlayer; //This will be the size of the ints where i save every thing
 	private	int maxBlockSave; // This says how much blocks will get saved before the first ones get deleted
 	
@@ -268,7 +288,14 @@ public class ReadOut {
     private	Boolean expBuilding = false;
     private	Boolean expFishing = false;
     private	Boolean expEntity = false;
+    
+    //Boolean for spawning Orbs
+    private Boolean breakSpawnOrbs = false;
+    private Boolean placeSpawnOrbs = false;
 	
+    //SaveBlocks to yml file
+    private Boolean saveToFile = false;
+    
 	//Booleans for Money Settings
     private	Boolean moneyGeneral = false;
     private	Boolean moneyMining = false;
@@ -296,12 +323,26 @@ public class ReadOut {
 			{
 				permissions = true;
 			}
-			if(SettingsContentSplit[x].contains("Vip percentage0:"))
+			if(SettingsContentSplit[x].contains("Vip percentage:"))
 			{
 				String[] vipSplit =  SettingsContentSplit[x].split(":");
 				vipPercentage = Integer.parseInt(vipSplit[1]);
 			}
 			
+			if(SettingsContentSplit[x].contains("Save Blocks to file on server reload/stop:true"))
+			{
+				saveToFile = true;
+			}
+			if(SettingsContentSplit[x].contains("Block save intervall in minutes:"))
+			{
+				String[] timerSplit = SettingsContentSplit[x].split(":");
+				int timer = Integer.parseInt(timerSplit[1]);
+				if(!(timer == 0) && timer > 0 && saveToFile == true)
+				{
+					BlockSaver BlockSaveFile = BlockSaver.getInstance();
+					BlockSaveFile.writeTimerBlockSaveFile(timer);
+				}
+			}
 			//Checking Exp Settings
 			if(SettingsContentSplit[x].equalsIgnoreCase("Give Exp:true"))
 			{
@@ -320,11 +361,18 @@ public class ReadOut {
 			{
 				expFishing = true;
 			}
-			if(SettingsContentSplit[x].equalsIgnoreCase("Use MobExp") && expGeneral == true)
+			if(SettingsContentSplit[x].equalsIgnoreCase("Use MobExp:true") && expGeneral == true)
 			{
 				expEntity = true;
 			}
-			
+			if(SettingsContentSplit[x].equalsIgnoreCase("Spawn ExpOrbs for break Blocks:true"))
+			{
+				breakSpawnOrbs = true;
+			}
+			if(SettingsContentSplit[x].equalsIgnoreCase("Spawn ExpOrbs for place Blocks:true"))
+			{
+				placeSpawnOrbs = true;
+			}			
 			//Checking Money settings
 			if(SettingsContentSplit[x].equalsIgnoreCase("Give Money:true"))
 			{
