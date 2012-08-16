@@ -20,11 +20,16 @@ public class MineBuilder extends JavaPlugin{
 	playerPlaceBlock placeBlock = new playerPlaceBlock();
 	playerSlainEntity slainEntity = new playerSlainEntity();
 	playerFishing fishing = new playerFishing();
-
-	//Folderpaths	//Files 
-	configer Settings = new configer("plugins/MineBuilder[Exp]","plugins/MineBuilder[Exp]/Settings.yml");
-	configer ExpConfig = new configer("plugins/MineBuilder[Exp]","plugins/MineBuilder[Exp]/ExpConfig.yml");
-	configer MoneyConfig = new configer("plugins/MineBuilder[Exp]","plugins/MineBuilder[Exp]/MoneyConfig.yml");
+	BlockSaver BlockSaveFile = BlockSaver.getInstance();
+	pistonMoveBlockEvent pistonMove = new pistonMoveBlockEvent();
+	
+	changeConfigFiles update = new changeConfigFiles();
+	
+	//Folderpaths	//Files
+	configer oldPath = new configer("plugins/MineBuilder[Exp]","buh");
+	configer Settings = new configer("plugins/MineBuilder","plugins/MineBuilder/Settings.yml");
+	configer ExpConfig = new configer("plugins/MineBuilder","plugins/MineBuilder/ExpConfig.yml");
+	configer MoneyConfig = new configer("plugins/MineBuilder","plugins/MineBuilder/MoneyConfig.yml");
 	
 	//Read all Configs
 	ReadOut read = ReadOut.getInstance();
@@ -61,17 +66,36 @@ public class MineBuilder extends JavaPlugin{
         return economy != null;
     }
 	
-	public void onDisable(){
-		
+	public void onDisable()
+	{
+		read.ReadAll();
+		BlockSaveFile.stopTimer();
+		if(read.getBlockSaveFileBoolean() == true)
+		{
+			BlockSaveFile.writeBlockSaveFile();
+		}
 	}
 	
-	public void onEnable(){
+	public void onEnable()
+	{
+		//CHeck if it goes to MineBuilderExp and not MineBuilder
+		oldPath.checkFolderPath();
 		//Check Config
 		System.out.println("[MineBuilderExp] Check Configs!");
 		ConfigCheck();
 		System.out.println("[MineBuilderExp] Configs checked!");
+		
+		//Check for Config update
+		update.CheckForConfigUpdate();
+		
 		//Read the Configs
 		read.ReadAll();
+		
+		//Load SavedBlocks
+		if(read.getBlockSaveFileBoolean() == true)
+		{
+			BlockSaveFile.readBlockSaveFile();
+		}
 		
 		//Check if any player is allready on the server
 		joinquit.PluginReloaded();
@@ -85,9 +109,11 @@ public class MineBuilder extends JavaPlugin{
 		setupEconomy();
 		}
 		//register events
+		Bukkit.getServer().getPluginManager().registerEvents(joinquit, this);
+		
 		Bukkit.getServer().getPluginManager().registerEvents(expChange, this);
 		
-		Bukkit.getServer().getPluginManager().registerEvents(joinquit, this);
+		Bukkit.getServer().getPluginManager().registerEvents(pistonMove, this);
 		
 		breakBlock.iniInts();
 		Bukkit.getServer().getPluginManager().registerEvents(breakBlock, this);
@@ -100,6 +126,8 @@ public class MineBuilder extends JavaPlugin{
 		
 		fishing.iniInts();
 		Bukkit.getServer().getPluginManager().registerEvents(fishing, this);
+		
+		
 
 	}
 	
@@ -160,6 +188,7 @@ public class MineBuilder extends JavaPlugin{
     				{
     					sender.sendMessage("[MineBuilder] Reload Configs");
     					ConfigCheck();
+    					BlockSaveFile.stopTimer();
     					read.ReadAll();
     					joinquit.PluginReloaded();
     					breakBlock.iniInts();
@@ -192,6 +221,7 @@ public class MineBuilder extends JavaPlugin{
     				{
     					sender.sendMessage("[MineBuilder] Reload Configs");
     					ConfigCheck();
+    					BlockSaveFile.stopTimer();
     					read.ReadAll();
     					joinquit.PluginReloaded();
     					breakBlock.iniInts();
