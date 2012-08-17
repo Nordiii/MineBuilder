@@ -23,8 +23,6 @@ public static playerJoinQuit getInstance()
 	return instance;
 }
 
-
-
 ArrayList<String> playerName = new ArrayList<String>(); //Contains all player which are online currently I get the index from them and save all blocks into an IntArray
 
 
@@ -39,6 +37,7 @@ private void PlayerJoin(PlayerJoinEvent event)
 	{
 		playerName.add(event.getPlayer().getName());
 	}
+
 	
 }
 
