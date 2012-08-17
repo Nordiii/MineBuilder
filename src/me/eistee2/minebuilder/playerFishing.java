@@ -110,7 +110,7 @@ public class playerFishing implements Listener {
 		}
 		
 		//Give money
-		if(info.getMoneyBoolean(booleanID)==true)
+		if(info.getMoneyBoolean(booleanID)==true && Bukkit.getServer().getPluginManager().getPlugin("Vault") != null)
 		{
 			String blockInfo = info.checkMoneyID(booleanID, blockID, blockName);
 			if(blockInfo != null)
@@ -118,7 +118,7 @@ public class playerFishing implements Listener {
 				String[] blockInfoSplit = blockInfo.split(":");
 				//How many money you set
 				int replays = Integer.parseInt(blockInfoSplit[2]);
-				int money = 0;
+				float money = 0;
 				//Check if the exp random list contains a random for exp , when not it will set the exp in the settings
 				if(info.checkMoneyID(5, 0, blockInfoSplit[1]) != null)
 				{
@@ -128,7 +128,7 @@ public class playerFishing implements Listener {
 					Random ran = new Random();
 					money = ran.nextInt((between2 + 1) - between1) + between1;
 				}else{
-					money = Integer.parseInt(blockInfoSplit[1]);
+					money = Float.parseFloat(blockInfoSplit[1]);
 				}
 				
 				if(replays == 1)
