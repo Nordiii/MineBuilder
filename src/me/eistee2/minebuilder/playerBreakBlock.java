@@ -30,6 +30,7 @@ public class playerBreakBlock implements Listener {
     int[][] expArray;
     int[][] moneyArray;
 
+    
 	public void iniInts()
 	{
 		moneyArray = new int[info.getMaxPlayer()][200];
@@ -43,13 +44,13 @@ public class playerBreakBlock implements Listener {
 			}
 		}
 	}
-    
-    
+	
 	@EventHandler(priority = EventPriority.NORMAL)
 	private void PlayerBlockBreak(BlockBreakEvent event)
 	{	
 		MineBuilder Miner = new MineBuilder();
 		int booleanID = 1;
+		event.setExpToDrop(0); //So when a block is not in the config wont give any exp
 		//Check if you are in a protectet area (Spawn area, WorldGuard and MobArena)
 		if(event.getPlayer().getLocation().distanceSquared(event.getPlayer().getWorld().getSpawnLocation()) < Math.pow(Bukkit.getServer().getSpawnRadius(), 2.2))
 		{
@@ -73,19 +74,17 @@ public class playerBreakBlock implements Listener {
 		if(delete.checkLocation(event.getBlock().getLocation()) == true)
 		{
 			return;
-		}		
+		}
 		if(info.getPermissionStat() == true)
 		{
 			if(!event.getPlayer().hasPermission("minebuilder.vip")){
 				return;
 			}
 		}
-		
 		//Get BlockID/name and player name
 		int blockID = event.getBlock().getTypeId();
 		String blockName = event.getBlock().getType().toString();
 		int playerID = playerList.getPlayerIndex(event.getPlayer().getName());
-
 		//This is for peoples which add seeds to the config
 		if(blockName.equalsIgnoreCase("CROPS"))
 		{
@@ -118,8 +117,6 @@ public class playerBreakBlock implements Listener {
 				return;
 			}
 		}
-			
-			
 		//Give exp
 		if(info.getExpBoolean(booleanID)==true)
 		{
@@ -144,23 +141,35 @@ public class playerBreakBlock implements Listener {
 				if(replays == 1)
 				{
 					exp = expCal.CalculateExp(event.getPlayer().getLevel(), exp, event.getPlayer().getName());
-					event.setExpToDrop(exp);
+					if(info.getSpawnOrbs(1) == true)
+					{
+						event.setExpToDrop(exp);
+					}
+					else
+					{
+						event.getPlayer().giveExp(exp);
+					}
 				}
 				else if(expArray[playerID][info.getExpIndex(booleanID, blockInfo)] == -1)
 				{
-					event.setExpToDrop(0);
 					expArray[playerID][info.getExpIndex(booleanID, blockInfo)] = replays-1;
 				}
 				else if(expArray[playerID][info.getExpIndex(booleanID, blockInfo)] > 0)
 				{
-					event.setExpToDrop(0);
 					expArray[playerID][info.getExpIndex(booleanID, blockInfo)] -= 1;
 				}
 				
 				if(expArray[playerID][info.getExpIndex(booleanID, blockInfo)] == 0)
 				{
 					exp = expCal.CalculateExp(event.getPlayer().getLevel(), exp, event.getPlayer().getName());
-					event.setExpToDrop(exp);
+					if(info.getSpawnOrbs(1) == true)
+					{
+						event.setExpToDrop(exp);
+					}
+					else
+					{
+						event.getPlayer().giveExp(exp);
+					}
 					expArray[playerID][info.getExpIndex(booleanID, blockInfo)] = replays;
 					
 				}
@@ -168,7 +177,7 @@ public class playerBreakBlock implements Listener {
 		}
 		
 		//Give money
-		if(info.getMoneyBoolean(booleanID)==true)
+		if(info.getMoneyBoolean(booleanID)==true && Bukkit.getServer().getPluginManager().getPlugin("Vault") != null)
 		{
 			String blockInfo = info.checkMoneyID(booleanID, blockID, blockName);
 			if(blockInfo != null)
@@ -176,7 +185,7 @@ public class playerBreakBlock implements Listener {
 				String[] blockInfoSplit = blockInfo.split(":");
 				//How many money you set
 				int replays = Integer.parseInt(blockInfoSplit[2]);
-				int money = 0;
+				float money = 0;
 				//Check if the exp random list contains a random for exp , when not it will set the exp in the settings
 				if(info.checkMoneyID(5, 0, blockInfoSplit[1]) != null)
 				{
@@ -186,7 +195,7 @@ public class playerBreakBlock implements Listener {
 					Random ran = new Random();
 					money = ran.nextInt((between2 + 1) - between1) + between1;
 				}else{
-					money = Integer.parseInt(blockInfoSplit[1]);
+					money = Float.parseFloat(blockInfoSplit[1]);
 				}
 				
 				if(replays == 1)
