@@ -27,7 +27,7 @@ public class playerSlainEntity implements Listener{
 	
     int[][] expArray;
     int[][] moneyArray;
-
+    
 	public void iniInts()
 	{
 		moneyArray = new int[info.getMaxPlayer()][200];
@@ -45,8 +45,8 @@ public class playerSlainEntity implements Listener{
 @EventHandler(priority = EventPriority.NORMAL)
 private void PlayerSlain(EntityDeathEvent event)
 {
-
 	String playername ="";
+	event.setDroppedExp(0);
 	if(event.getEntity().getKiller() instanceof Player)
 	{
 		playername = event.getEntity().getKiller().getName();
@@ -116,7 +116,7 @@ private void PlayerSlain(EntityDeathEvent event)
 	}
 	
 	//Give money
-	if(info.getMoneyBoolean(booleanID)==true)
+	if(info.getMoneyBoolean(booleanID)==true && Bukkit.getServer().getPluginManager().getPlugin("Vault") != null)
 	{
 		String blockInfo = info.checkMoneyID(booleanID, mobID, mobName);
 		if(blockInfo != null)
@@ -124,7 +124,7 @@ private void PlayerSlain(EntityDeathEvent event)
 			String[] blockInfoSplit = blockInfo.split(":");
 			//How many money you set
 			int replays = Integer.parseInt(blockInfoSplit[2]);
-			int money = 0;
+			float money = 0;
 			//Check if the exp random list contains a random for exp , when not it will set the exp in the settings
 			if(info.checkMoneyID(5, 0, blockInfoSplit[1]) != null)
 			{
@@ -134,7 +134,7 @@ private void PlayerSlain(EntityDeathEvent event)
 				Random ran = new Random();
 				money = ran.nextInt((between2 + 1) - between1) + between1;
 			}else{
-				money = Integer.parseInt(blockInfoSplit[1]);
+				money = Float.parseFloat(blockInfoSplit[1]);
 			}
 			
 			if(replays == 1)
