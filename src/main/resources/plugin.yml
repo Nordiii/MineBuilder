@@ -1,0 +1,12 @@
+name: MineBuilder
+main: de.minebuilder.MineBuilder
+version: 0.1
+commands:
+  mbToggleExp:
+    description: Enables / Disables the Exp drops.
+    usage: /<command> [true,false]
+    permission-message: You don't have <permissions>
+  mbAdd:
+    description: Enables or Disables the Exp drops.
+    usage: /<command> ID EXP count
+    permission-message: You don't have <permissions>
