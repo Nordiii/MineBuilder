@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.Optional;
 
 public class BreakBlockExpConfig implements IConfig<Block,Block>{
-    List<Block> blockConfig;
+    private List<Block> blockConfig;
 
 
     @Override
     public void load() {
         Gson g = new GsonBuilder().setPrettyPrinting().create();
-        File f = new File("plugins/MineBuilder/exp.json");
+        File f = new File("plugins/MineBuilder/blockBreakExp.json");
         if(!f.exists())
             blockConfig = new ArrayList<>();
         else
@@ -39,7 +39,7 @@ public class BreakBlockExpConfig implements IConfig<Block,Block>{
     @Override
     public void save() {
         Gson g = new GsonBuilder().setPrettyPrinting().create();
-        File f = new File("plugins/MineBuilder/exp.json");
+        File f = new File("plugins/MineBuilder/blockBreakExp.json");
 
         try
         {
@@ -62,16 +62,23 @@ public class BreakBlockExpConfig implements IConfig<Block,Block>{
 
     @Override
     public boolean add(Block value) {
-        return false;
+
+        blockConfig.remove(value);
+
+        return blockConfig.add(value);
     }
 
     @Override
     public boolean set(Block key, Block newValue) {
-        return false;
+        blockConfig.set(blockConfig.indexOf(key),newValue);
+        return true;
     }
 
     @Override
     public Optional<Block> get(Block id) {
-        return blockConfig.stream().filter(x->id.equals(x)).findAny();
+        Optional<Block> t = blockConfig.stream().filter(id::equals).findAny();
+        if(t.isPresent())
+            return Optional.of(new Block(t.get()));
+        return Optional.empty();
     }
 }

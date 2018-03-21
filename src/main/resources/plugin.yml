@@ -7,6 +7,10 @@ commands:
     usage: /<command> [true,false]
     permission-message: You don't have <permissions>
   mbAdd:
-    description: Enables or Disables the Exp drops.
-    usage: /<command> ID EXP count
+    description: Click on something and add it to the specified config. EventIDs  0 - break block  1 - place block
+    usage: /<command> <eventID zurzeit nur 0> <BlockName> <BlockID> <minEXP> <maxEXP> <count>
     permission-message: You don't have <permissions>
+  mbGetId:
+      description: Click on something and get the name + ID
+      usage: /<command>
+      permission-message: You don't have <permissions>

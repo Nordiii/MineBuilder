@@ -7,4 +7,8 @@ public abstract class IEntity {
 
     @Override
     public abstract int hashCode();
+
+    public abstract int getExp();
+
+    public abstract void decrease();
 }
