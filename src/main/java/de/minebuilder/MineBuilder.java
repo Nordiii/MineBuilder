@@ -30,7 +30,7 @@ public class MineBuilder extends JavaPlugin {
     }
 
     public void onDisable(){
-        ConfigDAO.getInstance().save();
+
     }
 
     public void testFunc(Optional<?> b){

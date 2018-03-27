@@ -27,6 +27,8 @@ public class Protection {
 
     public void addProtection(Block b)
     {
+        if(protectedBlocks.size()>=400)
+            protectedBlocks.remove(0);
         protectedBlocks.add(b.getLocation());
     }
 

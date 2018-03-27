@@ -18,7 +18,7 @@ public class ConfigDAO
         loadConfig();
     }
 
-    private void loadConfig(){
+    public void loadConfig(){
         Arrays.stream(configs).forEach(x->x.load());
     }
 
@@ -31,10 +31,12 @@ public class ConfigDAO
 
     public <V> boolean add(Class<?> type, V item)
     {
-        return Arrays.stream(configs).filter(x->type.equals(x.dealsWith())).limit(1)
+        boolean worked = Arrays.stream(configs).filter(x->type.equals(x.dealsWith())).limit(1)
                 .findFirst()
                 .get()
                 .add(item);
+        save();
+        return worked;
     }
 
     public void save(){
