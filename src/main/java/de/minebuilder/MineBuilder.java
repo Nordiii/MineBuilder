@@ -2,38 +2,34 @@ package de.minebuilder;
 
 import de.commands.CommandDAO;
 import de.config.ConfigDAO;
-import de.events.BlockBreakListener;
-import de.events.BlockPlaceListener;
-import de.events.PlayerInteractionListener;
-import de.events.PlayerJoinListener;
+import de.events.*;
 import de.models.Block;
 import de.models.PlayerDAO;
 import de.models.Settings;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class MineBuilder extends JavaPlugin {
+
+    private List<Listener> eventsToRegister = Arrays.asList(new BlockBreakListener(),new BlockPlaceListener(),new PlayerJoinListener(),new PlayerInteractionListener());
+
     public void onEnable(){
         CommandDAO.getInstance();
         ConfigDAO.getInstance();
-        this.getServer().getPluginManager().registerEvents(new BlockBreakListener(),this);
-        this.getServer().getPluginManager().registerEvents(new BlockPlaceListener(),this);
-        this.getServer().getPluginManager().registerEvents(new PlayerJoinListener(),this);
-        this.getServer().getPluginManager().registerEvents(new PlayerInteractionListener(),this);
+        eventsToRegister.forEach(e-> this.getServer().getPluginManager().registerEvents(e,this));
 
-        for(Player p:this.getServer().getOnlinePlayers())
-            PlayerDAO.getInstance().addPlayer(p.getUniqueId());
-
+        this.getServer().getOnlinePlayers().stream()
+                .forEach(p-> PlayerDAO.getInstance().addPlayer(p.getUniqueId()));
     }
 
     public void onDisable(){
 
     }
 
-    public void testFunc(Optional<?> b){
-
-    }
 }

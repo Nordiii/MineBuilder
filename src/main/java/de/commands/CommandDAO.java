@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 
 public class CommandDAO {
-    private AbsCommand[] commands = {new TestCommand(),new AddCommand(),new GetIDCommand(),new LoadCfgCommand()};
+    private AbsCommand[] commands = {new AddCommand(),new GetIDCommand(),new LoadCfgCommand()};
 
     private static CommandDAO instance;
 

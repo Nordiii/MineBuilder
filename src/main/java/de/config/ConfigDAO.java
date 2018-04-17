@@ -1,12 +1,13 @@
 package de.config;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class ConfigDAO
 {
     private static ConfigDAO instance;
-    private IConfig[] configs = {new BreakBlockExpConfig()};
+    private List<IConfig> configs = Arrays.asList(new BreakBlockExpConfig(), new BreakBlockExpConfig());
 
     public static ConfigDAO getInstance() {
         if(instance==null)
@@ -19,19 +20,21 @@ public class ConfigDAO
     }
 
     public void loadConfig(){
-        Arrays.stream(configs).forEach(x->x.load());
+        configs.forEach(x->x.load());
     }
 
-    public <V,I> Optional<V> get(Class<?> type, I item){
-        return Arrays.stream(configs).filter(x->type.equals(x.dealsWith())).limit(1)
-                .findFirst()
-                .get()
-                .get(item);
+    public <I> Optional get(Class<?> type, I item){
+        Optional<IConfig> config = configs.stream().filter(c -> c.dealsWith() == type).findFirst();
+
+        if(config.isPresent())
+            return config.get().get(item);
+
+        return Optional.empty();
     }
 
     public <V> boolean add(Class<?> type, V item)
     {
-        boolean worked = Arrays.stream(configs).filter(x->type.equals(x.dealsWith())).limit(1)
+        boolean worked = configs.stream().filter(x->type.equals(x.dealsWith())).limit(1)
                 .findFirst()
                 .get()
                 .add(item);
@@ -40,6 +43,6 @@ public class ConfigDAO
     }
 
     public void save(){
-        Arrays.stream(configs).forEach(x->x.save());
+        configs.stream().forEach(x->x.save());
     }
 }

@@ -1,22 +1,20 @@
 package de.config;
 
-
 import de.events.BlockBreakListener;
 import de.models.Block;
 
 import java.util.Optional;
 
-public class BreakBlockExpConfig extends AbsConfig<Block,Block>{
+public class PlaceBlockConfig extends AbsConfig<Block,Block> {
 
-    public BreakBlockExpConfig(){
-        super("blockBreakExp.json","plugins/MineBuilder/");
+    public PlaceBlockConfig(){
+        super("placeBlockExp.json","plugins/MineBuilder/");
     }
 
     @Override
     public <T> Class<T> dealsWith() {
         return (Class<T>) BlockBreakListener.class;
     }
-
 
     @Override
     public boolean add(Block value) {
@@ -37,5 +35,4 @@ public class BreakBlockExpConfig extends AbsConfig<Block,Block>{
             return Optional.of(new Block(t.get()));
         return Optional.empty();
     }
-
 }
