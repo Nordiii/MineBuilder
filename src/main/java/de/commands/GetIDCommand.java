@@ -18,7 +18,7 @@ public class GetIDCommand extends AbsCommand {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if(commandSender instanceof Player && commandSender.hasPermission("op"))
-            PlayerDAO.getInstance().setBlockInfo(((Player) commandSender).getUniqueId());
+            PlayerDAO.getInstance().setBlockInfo(((Player) commandSender));
         return true;
     }
 }

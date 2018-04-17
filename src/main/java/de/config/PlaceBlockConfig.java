@@ -1,6 +1,7 @@
 package de.config;
 
 import de.events.BlockBreakListener;
+import de.events.BlockPlaceListener;
 import de.models.Block;
 
 import java.util.Optional;
@@ -13,7 +14,7 @@ public class PlaceBlockConfig extends AbsConfig<Block,Block> {
 
     @Override
     public <T> Class<T> dealsWith() {
-        return (Class<T>) BlockBreakListener.class;
+        return (Class<T>) BlockPlaceListener.class;
     }
 
     @Override

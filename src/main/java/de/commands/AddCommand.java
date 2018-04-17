@@ -6,9 +6,11 @@ import de.events.BlockPlaceListener;
 import de.models.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class AddCommand extends AbsCommand {
     public AddCommand() {
@@ -19,7 +21,7 @@ public class AddCommand extends AbsCommand {
     public String getCommandName() {
         return getCOMMAND_NAME();
     }
-    private ArrayList<Class> configs = new ArrayList<>(Arrays.asList(BlockBreakListener.class, BlockPlaceListener.class));
+    private List<Class> configs = Arrays.asList(BlockBreakListener.class, BlockPlaceListener.class);
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if(!commandSender.hasPermission("op") || strings.length != 6)

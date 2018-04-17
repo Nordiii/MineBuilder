@@ -25,7 +25,7 @@ public class MineBuilder extends JavaPlugin {
         eventsToRegister.forEach(e-> this.getServer().getPluginManager().registerEvents(e,this));
 
         this.getServer().getOnlinePlayers().stream()
-                .forEach(p-> PlayerDAO.getInstance().addPlayer(p.getUniqueId()));
+                .forEach(p-> PlayerDAO.getInstance().addPlayer(p));
     }
 
     public void onDisable(){

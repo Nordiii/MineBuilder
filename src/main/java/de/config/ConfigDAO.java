@@ -7,7 +7,7 @@ import java.util.Optional;
 public class ConfigDAO
 {
     private static ConfigDAO instance;
-    private List<IConfig> configs = Arrays.asList(new BreakBlockExpConfig(), new BreakBlockExpConfig());
+    private List<IConfig> configs = Arrays.asList(new BreakBlockExpConfig(), new PlaceBlockConfig());
 
     public static ConfigDAO getInstance() {
         if(instance==null)

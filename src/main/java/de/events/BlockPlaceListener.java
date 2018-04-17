@@ -5,16 +5,18 @@ import de.models.Block;
 import de.models.IEntity;
 import de.models.PlayerDAO;
 import de.protection.Protection;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 public class BlockPlaceListener extends AbsEvent implements IEvent,Listener {
 
     @EventHandler
-    public void onBlockBreak(BlockPlaceEvent e)
+    public void onBlockPlace(BlockPlaceEvent e)
     {
         Protection.getInstance().addProtection(e.getBlockPlaced());
 
@@ -24,12 +26,20 @@ public class BlockPlaceListener extends AbsEvent implements IEvent,Listener {
         if(!b.isPresent())
             return;
 
-        if(Protection.getInstance().isProtected(e.getBlock()))
-        {
-            return;
-        }
+//        if(Protection.getInstance().isProtected(e.getBlock()))
+//        {
+//            return;
+//        }
 
-        e.getPlayer().giveExp(PlayerDAO.getInstance().getExp(this.getClass(),e.getPlayer().getUniqueId(),b.get())) ;
+        int exp = PlayerDAO.getInstance().getExp(
+                this.getClass(),e.getPlayer(),b.get());
+
+        IntStream.range(0,exp).forEach(n ->
+            e.getBlock().getWorld()
+                    .spawn(e.getBlock().getLocation(),ExperienceOrb.class)
+                    .setExperience(1)
+        );
+
 
     }
 

@@ -9,7 +9,7 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(PlayerJoinEvent e){
-        PlayerDAO.getInstance().addPlayer(e.getPlayer().getUniqueId());
+        PlayerDAO.getInstance().addPlayer(e.getPlayer());
     }
 
 }

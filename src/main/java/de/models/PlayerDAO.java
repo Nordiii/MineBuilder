@@ -1,6 +1,10 @@
 package de.models;
 
+import org.bukkit.entity.Player;
+
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class PlayerDAO {
@@ -13,32 +17,30 @@ public class PlayerDAO {
     private PlayerDAO() {
     }
 
-    private ArrayList<Player> players = new ArrayList<>();
+    private List<PlayerWrapper> players = new ArrayList<>();
 
-    public  <T,K> int getExp(Class<T> config, UUID player , K key){
-        for(Player p : players)
-            if(p.getPlayer() == player)
-                return p.getExp(config,key);
-
+    public  <T,K> int getExp(Class<T> config, Player player , K key){
+        Optional<PlayerWrapper> playerStats = players.stream()
+                                    .filter(new PlayerWrapper(player)::matchPlayer)
+                                    .findAny();
+        if(playerStats.isPresent())
+            return playerStats.get().getExp(config,key);
         return 0;
     }
 
-    public void addPlayer(UUID player){
-        players.add(new Player(player));
+    public void addPlayer(Player player){
+        players.add(new PlayerWrapper(player));
     }
 
-    public boolean getBlockInfo(UUID player){
-        for(Player p : players)
-            if(p.getPlayer() == player)
-                return p.isAddFlag();
-
-        return false;
+    public boolean getBlockInfo(Player player){
+        return players.stream().filter(PlayerWrapper::isAddFlag)
+                        .anyMatch(new PlayerWrapper(player)::matchPlayer);
     }
 
-    public void setBlockInfo(UUID player){
-        for(Player p : players)
-            if(p.getPlayer() == player)
-                p.setAddFlag(true);
+    public void setBlockInfo(Player player){
+        players.stream().filter(new PlayerWrapper(player)::matchPlayer)
+                        .findAny()
+                        .ifPresent(PlayerWrapper::toggleFlag);
     }
 
 }

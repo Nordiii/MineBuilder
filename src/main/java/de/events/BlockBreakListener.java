@@ -26,7 +26,7 @@ public class BlockBreakListener extends AbsEvent implements IEvent,Listener  {
             return;
         }
 
-        e.setExpToDrop(PlayerDAO.getInstance().getExp(this.getClass(),e.getPlayer().getUniqueId(),b.get()));
+        e.setExpToDrop(PlayerDAO.getInstance().getExp(this.getClass(),e.getPlayer(),b.get()));
 
     }
 
