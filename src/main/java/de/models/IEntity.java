@@ -1,6 +1,6 @@
 package de.models;
 
-public abstract class IEntity {
+public abstract class IEntity implements Exp {
 
     @Override
     public abstract boolean equals(Object o);

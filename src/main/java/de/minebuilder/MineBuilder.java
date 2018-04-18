@@ -3,17 +3,12 @@ package de.minebuilder;
 import de.commands.CommandDAO;
 import de.config.ConfigDAO;
 import de.events.*;
-import de.models.Block;
 import de.models.PlayerDAO;
-import de.models.Settings;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class MineBuilder extends JavaPlugin {
 
@@ -22,7 +17,7 @@ public class MineBuilder extends JavaPlugin {
     public void onEnable(){
         CommandDAO.getInstance();
         ConfigDAO.getInstance();
-        eventsToRegister.forEach(e-> this.getServer().getPluginManager().registerEvents(e,this));
+        eventsToRegister.forEach(this::registerEvents);
 
         this.getServer().getOnlinePlayers().stream()
                 .forEach(p-> PlayerDAO.getInstance().addPlayer(p));
@@ -30,6 +25,11 @@ public class MineBuilder extends JavaPlugin {
 
     public void onDisable(){
 
+    }
+
+    private void registerEvents(Listener listener)
+    {
+        this.getServer().getPluginManager().registerEvents(listener,this);
     }
 
 }
