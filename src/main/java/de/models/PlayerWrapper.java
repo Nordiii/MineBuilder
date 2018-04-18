@@ -2,6 +2,7 @@ package de.models;
 
 import de.events.BlockBreakListener;
 import de.events.BlockPlaceListener;
+import de.events.EventsDAO;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -29,8 +30,8 @@ public class PlayerWrapper {
     public PlayerWrapper(Player player) {
         this.player = player;
         this.addFlag = false;
-        configs.put(BlockBreakListener.class , new ArrayList<>());
-        configs.put(BlockPlaceListener.class , new ArrayList<>());
+        EventsDAO.getInstance().getPluginEvents()
+                .forEach(event->configs.put(event.getClass(),new ArrayList<>()));
     }
 
     public boolean matchPlayer(PlayerWrapper player) {

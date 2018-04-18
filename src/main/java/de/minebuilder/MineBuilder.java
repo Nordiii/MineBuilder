@@ -17,7 +17,9 @@ public class MineBuilder extends JavaPlugin {
     public void onEnable(){
         CommandDAO.getInstance();
         ConfigDAO.getInstance();
-        eventsToRegister.forEach(this::registerEvents);
+        EventsDAO.getInstance()
+                .getEvents()
+                .forEach(this::registerEvents);
 
         this.getServer().getOnlinePlayers().stream()
                 .forEach(p-> PlayerDAO.getInstance().addPlayer(p));
