@@ -1,10 +1,13 @@
 package de.commands;
 
 import de.config.ConfigDAO;
+import de.events.AbsEvent;
 import de.events.BlockBreakListener;
 import de.events.BlockPlaceListener;
 import de.events.EventsDAO;
 import de.models.Block;
+import de.models.Exp;
+import de.models.PlayerDAO;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
@@ -36,17 +39,17 @@ public class AddCommand extends AbsCommand {
         int count = Integer.parseInt(strings[5]);
 
 
+        Class pluginEvent = EventsDAO.getInstance()
+                .getPluginEvents()
+                .map(e->e.getClass())
+                .collect(Collectors.toList())
+                .get(Integer.parseInt(strings[0]));
+
+        Exp newItem = new Block(entityName,entityID,count,minExp,maxExp);
         ConfigDAO.getInstance().add(
-
-                EventsDAO.getInstance()
-                        .getPluginEvents()
-                        .map(e->e.getClass())
-                        .collect(Collectors.toList())
-                        .get(Integer.parseInt(strings[0]))
-
-
-                ,new Block(entityName,entityID,count,minExp,maxExp));
-
+                pluginEvent
+                ,newItem);
+        PlayerDAO.getInstance().updateItem(pluginEvent,newItem);
         return true;
     }
 

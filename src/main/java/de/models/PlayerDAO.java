@@ -19,7 +19,10 @@ public class PlayerDAO {
 
     private List<PlayerWrapper> players = new ArrayList<>();
 
-    public  <T,K> int getExp(Class<T> config, Player player , Exp key){
+    public <T> void updateItem(Class<T> event,Exp item){
+        players.stream().forEach(p->p.updateItem(event, item));
+    }
+    public  <T> int getExp(Class<T> config, Player player , Exp key){
         Optional<PlayerWrapper> playerStats = players.stream()
                                     .filter(new PlayerWrapper(player)::matchPlayer)
                                     .findAny();

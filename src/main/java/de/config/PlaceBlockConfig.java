@@ -1,6 +1,5 @@
 package de.config;
 
-import de.events.BlockBreakListener;
 import de.events.BlockPlaceListener;
 import de.models.Block;
 

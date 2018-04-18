@@ -33,11 +33,11 @@ public class BlockPlaceListener extends AbsEvent implements IEvent,Listener {
 
         int exp = PlayerDAO.getInstance().getExp(
                 this.getClass(),e.getPlayer(),b.get());
-
+        if(exp > 0)
         IntStream.range(0,exp).forEach(n ->
             e.getBlock().getWorld()
                     .spawn(e.getBlock().getLocation(),ExperienceOrb.class)
-                    .setExperience(1)
+                    .setExperience(exp)
         );
 
 

@@ -27,6 +27,11 @@ public class PlayerWrapper {
     private boolean addFlag;
     private HashMap<Class,ArrayList<Exp>> configs = new HashMap<>();
 
+    public void updateItem(Class event,Exp item){
+        configs.get(event).remove(item);
+        configs.get(event).add(item);
+    }
+
     public PlayerWrapper(Player player) {
         this.player = player;
         this.addFlag = false;
@@ -35,17 +40,16 @@ public class PlayerWrapper {
     }
 
     public boolean matchPlayer(PlayerWrapper player) {
-        return this.player == player;
+        return this.player.getUniqueId() == player.player.getUniqueId();
 
     }
 
-    public <C> int getExp(Class<C> config,Exp item)
+    public <C> int getExp(Class<C> event,Exp item)
     {
-        ArrayList<Exp> entities = configs.get(config);
+        ArrayList<Exp> entities = configs.get(event);
 
-        if(entities.contains(item))
+        if(!entities.contains(item))
             entities.add(item);
-
         return entities.stream()
                 .filter(item::equals)
                 .mapToInt(Exp::getExp)
