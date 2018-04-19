@@ -9,7 +9,7 @@ import java.util.Optional;
 public class BreakBlockExpConfig extends AbsConfig<Block,Block>{
 
     public BreakBlockExpConfig(){
-        super("blockBreakExp.json","plugins/MineBuilder/");
+        super("blockBreakExp.json");
     }
 
     @Override
@@ -33,9 +33,7 @@ public class BreakBlockExpConfig extends AbsConfig<Block,Block>{
     @Override
     public Optional<Block> get(Block id) {
         Optional<Block> t = getConfig().stream().filter(id::equals).findAny();
-        if(t.isPresent())
-            return Optional.of(new Block(t.get()));
-        return Optional.empty();
+        return t.map(Block::new);
     }
 
 }

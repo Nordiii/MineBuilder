@@ -2,8 +2,8 @@ package de.config;
 
 
 import java.util.Optional;
-import java.util.function.Supplier;
-public interface IConfig<V,K> {
+
+interface IConfig<V,K> {
       void load();
       void save();
       <T> Class<T> dealsWith();

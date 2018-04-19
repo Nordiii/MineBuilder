@@ -2,7 +2,6 @@ package de.events;
 
 import de.config.ConfigDAO;
 import de.models.Block;
-import de.models.IEntity;
 import de.models.PlayerDAO;
 import de.protection.Protection;
 import org.bukkit.event.EventHandler;

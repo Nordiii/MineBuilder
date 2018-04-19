@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 public class EventsDAO {
     private static EventsDAO eventsDAO = new EventsDAO();
-    List<Listener> events = Arrays.asList(new BlockBreakListener(),new BlockPlaceListener(),new PlayerJoinListener(),new PlayerInteractionListener());
+    private List<Listener> events = Arrays.asList(new BlockBreakListener(),new BlockPlaceListener(),new PlayerJoinListener(),new PlayerInteractionListener());
 
     public static EventsDAO getInstance(){return eventsDAO;}
     private EventsDAO(){}

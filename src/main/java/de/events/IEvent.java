@@ -1,4 +1,4 @@
 package de.events;
 
-public interface IEvent {
+interface IEvent {
 }

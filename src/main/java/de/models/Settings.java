@@ -1,6 +1,6 @@
 package de.models;
 
-public class Settings {
+class Settings {
     private boolean expDropEnabled;
     private boolean moneyDropEnabled;
 

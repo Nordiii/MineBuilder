@@ -10,10 +10,10 @@ public class CommandDAO {
 
     private static CommandDAO instance;
 
-    public static CommandDAO getInstance(){
-        if(instance == null)
-            return instance = new CommandDAO();
-        return instance;
+    public static void loadInstance(){
+        if(instance == null) {
+            instance = new CommandDAO();
+        }
     }
 
     private CommandDAO(){

@@ -11,8 +11,9 @@ public class ConfigDAO
 
     public static ConfigDAO getInstance() {
         if(instance==null)
-            return instance = new ConfigDAO();
+             instance = new ConfigDAO();
         return instance;
+
     }
 
     private ConfigDAO(){
@@ -20,7 +21,7 @@ public class ConfigDAO
     }
 
     public void loadConfig(){
-        configs.forEach(x->x.load());
+        configs.forEach(IConfig::load);
     }
 
     public <I> Optional get(Class<?> type, I item){
@@ -32,17 +33,15 @@ public class ConfigDAO
         return Optional.empty();
     }
 
-    public <V> boolean add(Class<?> type, V item)
+    public <V> void add(Class<?> type, V item)
     {
-        boolean worked = configs.stream().filter(x->type.equals(x.dealsWith())).limit(1)
+        configs.stream().filter(x->type.equals(x.dealsWith()))
                 .findFirst()
-                .get()
-                .add(item);
+                .ifPresent(c->c.add(item));
         save();
-        return worked;
     }
 
-    public void save(){
-        configs.stream().forEach(x->x.save());
+    private void save(){
+        configs.forEach(IConfig::save);
     }
 }

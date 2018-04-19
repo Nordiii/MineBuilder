@@ -1,14 +1,12 @@
 package de.models;
 
-import de.events.BlockBreakListener;
-import de.events.BlockPlaceListener;
 import de.events.EventsDAO;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PlayerWrapper {
+class PlayerWrapper {
     private Player player;
 
     public boolean isAddFlag() {
@@ -54,7 +52,7 @@ public class PlayerWrapper {
                 .filter(item::equals)
                 .mapToInt(Exp::getExp)
                 .findAny()
-                .getAsInt();
+                .orElse(0);
     }
 
 }

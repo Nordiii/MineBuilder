@@ -1,5 +1,5 @@
 package de.commands;
 
-public interface ICommand {
+interface ICommand {
     String getCommandName();
 }

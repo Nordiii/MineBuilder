@@ -15,14 +15,14 @@ public class MineBuilder extends JavaPlugin {
     private List<Listener> eventsToRegister = Arrays.asList(new BlockBreakListener(),new BlockPlaceListener(),new PlayerJoinListener(),new PlayerInteractionListener());
 
     public void onEnable(){
-        CommandDAO.getInstance();
+        CommandDAO.loadInstance();
         ConfigDAO.getInstance();
         EventsDAO.getInstance()
                 .getEvents()
                 .forEach(this::registerEvents);
 
-        this.getServer().getOnlinePlayers().stream()
-                .forEach(p-> PlayerDAO.getInstance().addPlayer(p));
+        this.getServer().getOnlinePlayers()
+                .forEach(PlayerDAO.getInstance()::addPlayer);
     }
 
     public void onDisable(){

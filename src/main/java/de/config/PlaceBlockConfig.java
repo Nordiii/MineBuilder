@@ -8,7 +8,7 @@ import java.util.Optional;
 public class PlaceBlockConfig extends AbsConfig<Block,Block> {
 
     public PlaceBlockConfig(){
-        super("placeBlockExp.json","plugins/MineBuilder/");
+        super("placeBlockExp.json");
     }
 
     @Override
@@ -31,8 +31,7 @@ public class PlaceBlockConfig extends AbsConfig<Block,Block> {
     @Override
     public Optional<Block> get(Block id) {
         Optional<Block> t = getConfig().stream().filter(id::equals).findAny();
-        if(t.isPresent())
-            return Optional.of(new Block(t.get()));
-        return Optional.empty();
+
+        return t.map(Block::new);
     }
 }

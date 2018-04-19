@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public class PlayerDAO {
     private static PlayerDAO ourInstance = new PlayerDAO();
@@ -20,15 +19,19 @@ public class PlayerDAO {
     private List<PlayerWrapper> players = new ArrayList<>();
 
     public <T> void updateItem(Class<T> event,Exp item){
-        players.stream().forEach(p->p.updateItem(event, item));
+        players.forEach(p->p.updateItem(event, item));
     }
+
     public  <T> int getExp(Class<T> config, Player player , Exp key){
         Optional<PlayerWrapper> playerStats = players.stream()
                                     .filter(new PlayerWrapper(player)::matchPlayer)
                                     .findAny();
-        if(playerStats.isPresent())
-            return playerStats.get().getExp(config,key);
-        return 0;
+
+
+        return playerStats.map(playerWrapper -> playerWrapper.getExp(config, key))
+                          .orElse(0);
+
+
     }
 
     public void addPlayer(Player player){

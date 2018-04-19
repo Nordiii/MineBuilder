@@ -2,21 +2,14 @@ package de.commands;
 
 import de.config.ConfigDAO;
 import de.events.AbsEvent;
-import de.events.BlockBreakListener;
-import de.events.BlockPlaceListener;
 import de.events.EventsDAO;
 import de.models.Block;
 import de.models.Exp;
 import de.models.PlayerDAO;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.event.Listener;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class AddCommand extends AbsCommand {
     public AddCommand() {
@@ -41,7 +34,7 @@ public class AddCommand extends AbsCommand {
 
         Class pluginEvent = EventsDAO.getInstance()
                 .getPluginEvents()
-                .map(e->e.getClass())
+                .map(AbsEvent::getClass)
                 .collect(Collectors.toList())
                 .get(Integer.parseInt(strings[0]));
 
