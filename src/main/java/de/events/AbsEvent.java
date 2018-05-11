@@ -1,5 +1,10 @@
 package de.events;
 
-public abstract class AbsEvent {
+
+import org.bukkit.event.Listener;
+
+public abstract class AbsEvent implements Listener {
+
+
 
 }

@@ -30,13 +30,13 @@ public class AddCommand extends AbsCommand {
         int minExp = Integer.parseInt(strings[3]);
         int maxExp = Integer.parseInt(strings[4]);
         int count = Integer.parseInt(strings[5]);
-
+        int eventIndex = Integer.parseInt(strings[0]);
 
         Class pluginEvent = EventsDAO.getInstance()
                 .getPluginEvents()
                 .map(AbsEvent::getClass)
                 .collect(Collectors.toList())
-                .get(Integer.parseInt(strings[0]));
+                .get(eventIndex);
 
         Exp newItem = new Block(entityName,entityID,count,minExp,maxExp);
         ConfigDAO.getInstance().add(

@@ -2,6 +2,7 @@ package de.config;
 
 import de.events.BlockPlaceListener;
 import de.models.Block;
+import de.models.PlayerDAO;
 
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ public class PlaceBlockConfig extends AbsConfig<Block,Block> {
 
     @Override
     public boolean add(Block value) {
+        System.out.println("Contains:" + getConfig().contains(value));
         getConfig().remove(value);
         return getConfig().add(value);
     }

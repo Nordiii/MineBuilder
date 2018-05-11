@@ -5,6 +5,7 @@ import de.models.Block;
 import de.models.PlayerDAO;
 import de.protection.Protection;
 import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -12,7 +13,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-public class BlockPlaceListener extends AbsEvent implements IEvent,Listener {
+public class BlockPlaceListener extends AbsEvent implements IEvent {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e)
@@ -41,5 +42,4 @@ public class BlockPlaceListener extends AbsEvent implements IEvent,Listener {
 
 
     }
-
 }

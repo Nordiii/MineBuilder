@@ -10,7 +10,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import java.util.Optional;
 
-public class BlockBreakListener extends AbsEvent implements IEvent,Listener  {
+public class BlockBreakListener extends AbsEvent implements IEvent {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e){
