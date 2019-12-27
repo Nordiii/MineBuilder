@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="MineBuilder:jar">
-    <output-path>$USER_HOME$/Desktop/MinecraftTest/plugins</output-path>
+    <output-path>D:/Spiggot/plugins</output-path>
     <root id="archive" name="MineBuilder.jar">
       <element id="module-output" name="MineBuilder" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.2/gson-2.8.2.jar" path-in-jar="/" />
