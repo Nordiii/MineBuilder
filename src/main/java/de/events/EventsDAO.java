@@ -8,21 +8,25 @@ import java.util.stream.Stream;
 
 
 public class EventsDAO {
-    private static EventsDAO eventsDAO = new EventsDAO();
-    private List<Listener> events = Arrays.asList(new BlockBreakListener(),new BlockPlaceListener(),new PlayerJoinListener(),new PlayerInteractionListener());
+    private static final EventsDAO eventsDAO = new EventsDAO();
+    private final List<Listener> events = Arrays.asList(new BlockBreakListener(), new BlockPlaceListener(), new PlayerJoinListener(), new PlayerInteractionListener());
 
-    public static EventsDAO getInstance(){return eventsDAO;}
-    private EventsDAO(){}
+    public static EventsDAO getInstance() {
+        return eventsDAO;
+    }
 
-    public Stream<Listener> getEvents(){
+    private EventsDAO() {
+    }
+
+    public Stream<Listener> getEvents() {
         return events.stream();
     }
 
-    public Stream<AbsEvent> getPluginEvents(){
-        return events.stream().filter(this::isPluginEvent).map(e->(AbsEvent)e);
+    public Stream<AbsEvent> getPluginEvents() {
+        return events.stream().filter(this::isPluginEvent).map(e -> (AbsEvent) e);
     }
 
-    private boolean isPluginEvent(Listener event){
+    boolean isPluginEvent(Listener event) {
         return event instanceof AbsEvent;
     }
 

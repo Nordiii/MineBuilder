@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class PlayerJoinListener implements Listener {
 
     @EventHandler
-    public void onBlockBreak(PlayerJoinEvent e){
+    public void onPlayerJoin(PlayerJoinEvent e) {
         PlayerDAO.getInstance().addPlayer(e.getPlayer());
     }
 
