@@ -1,19 +1,17 @@
 package de.config;
 
-
-import de.events.BlockBreakListener;
+import de.events.BlockPlaceListener;
 import de.models.Block;
 
-public class BreakBlockExpConfig extends AbsConfig<Block,Block>{
+public class PlaceBlockExpConfig extends AbsConfig<Block, Block> {
 
-    public BreakBlockExpConfig(){
-        super("blockBreakExp.json");
+    public PlaceBlockExpConfig() {
+        super("placeBlockExp.json");
     }
-
 
     @Override
     public <T> boolean dealsWith(Class<T> eventClass) {
-        return eventClass == BlockBreakListener.class;
+        return eventClass == BlockPlaceListener.class;
     }
 
     @Override
@@ -29,12 +27,10 @@ public class BreakBlockExpConfig extends AbsConfig<Block,Block>{
     }
 
     @Override
-    public Block get(Block block) {
+    public Block get(Block id) {
         return getConfig().stream()
-                .filter(block::equals)
+                .filter(id::equals)
                 .findAny()
                 .map(Block::new).orElse(null);
-
     }
-
 }

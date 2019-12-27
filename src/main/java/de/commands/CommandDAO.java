@@ -3,10 +3,11 @@ package de.commands;
 import org.bukkit.Bukkit;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 
 public class CommandDAO {
-    private AbsCommand[] commands = {new AddCommand(),new GetIDCommand(),new LoadCfgCommand()};
+    private final AbsCommand[] commands = {new AddCommand(), new GetIDCommand(), new LoadCfgCommand()};
 
     private static CommandDAO instance;
 
@@ -21,7 +22,7 @@ public class CommandDAO {
     }
 
     private void loadCommands(){
-        Arrays.stream(commands).forEachOrdered(x->Bukkit.getPluginCommand(x.getCommandName()).setExecutor(x));
+        Arrays.stream(commands).forEachOrdered(x -> Objects.requireNonNull(Bukkit.getPluginCommand(x.getCommandName())).setExecutor(x));
     }
 
 }

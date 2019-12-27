@@ -1,13 +1,18 @@
 package de.config;
 
 
-import java.util.Optional;
+import de.models.IEntity;
 
 interface IConfig<V,K> {
       void load();
+
       void save();
-      <T> Class<T> dealsWith();
+
+      <T> boolean dealsWith(Class<T> eventClass);
+
       boolean add(V value);
-      boolean set(K key,V newValue);
-      Optional<V> get(K id);
+
+      boolean set(K key, V newValue);
+
+      IEntity get(K id);
 }

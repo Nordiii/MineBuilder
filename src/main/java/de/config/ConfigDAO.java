@@ -1,47 +1,62 @@
 package de.config;
 
+import de.models.IEntity;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ConfigDAO
-{
+public class ConfigDAO {
     private static ConfigDAO instance;
-    private List<IConfig> configs = Arrays.asList(new BreakBlockExpConfig(), new PlaceBlockConfig());
+    private final List<IConfig> configs = Arrays.asList(new BreakBlockExpConfig(), new PlaceBlockExpConfig());
+
+    private ConfigDAO() {
+        checkConfigFolder();
+        loadConfig();
+    }
 
     public static ConfigDAO getInstance() {
-        if(instance==null)
-             instance = new ConfigDAO();
+        if (instance == null)
+            instance = new ConfigDAO();
         return instance;
 
     }
 
-    private ConfigDAO(){
-        loadConfig();
+    public void checkConfigFolder() {
+        try {
+            Files.createDirectories(Paths.get("plugins/MineBuilder"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void loadConfig(){
+    public void loadConfig() {
         configs.forEach(IConfig::load);
     }
 
-    public <I> Optional get(Class<?> type, I item){
-        Optional<IConfig> config = configs.stream().filter(c -> c.dealsWith() == type).findFirst();
-
-        if(config.isPresent())
-            return config.get().get(item);
-
-        return Optional.empty();
-    }
-
-    public <V> void add(Class<?> type, V item)
-    {
-        configs.stream().filter(x->type.equals(x.dealsWith()))
+    public <I> Optional<IEntity> get(Class<?> type, I item) {
+        return configs.stream()
+                .filter(c -> c.dealsWith(type))
                 .findFirst()
-                .ifPresent(c->c.add(item));
-        save();
+                .map(c -> c.get(item));
     }
 
-    private void save(){
+    public <V> boolean add(Class<?> type, V item) {
+        boolean result = configs.stream()
+                .filter(c -> c.dealsWith(type))
+                .findFirst()
+                .map(c -> c.add(item))
+                .orElse(false);
+
+        save();
+
+        return result;
+    }
+
+    private void save() {
         configs.forEach(IConfig::save);
     }
 }

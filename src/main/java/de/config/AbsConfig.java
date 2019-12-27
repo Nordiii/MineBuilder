@@ -10,18 +10,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbsConfig<T, K> implements IConfig<T, K> {
     private List<T> config;
     private final String fileName;
-    private final String path;
+    private final String path = "plugins/MineBuilder/";
 
     AbsConfig(String fileName) {
         this.fileName = fileName;
-        this.path = "plugins/MineBuilder/";
     }
 
     @Override
@@ -29,7 +27,6 @@ public abstract class AbsConfig<T, K> implements IConfig<T, K> {
         Gson g = new GsonBuilder().setPrettyPrinting().create();
         File f = new File(path + fileName);
         if (!f.exists())
-
             config = new ArrayList<>();
         else
             try {
@@ -42,22 +39,20 @@ public abstract class AbsConfig<T, K> implements IConfig<T, K> {
 
     @Override
     public void save() {
-        Gson g = new GsonBuilder().setPrettyPrinting().create();
-        File f = new File(path + fileName);
+        Gson g = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
 
-        try {
-            Files.createDirectories(Paths.get("plugins/MineBuilder"));
+
+        File f = new File(path + fileName);
+        try (PrintWriter out = new PrintWriter(f)) {
             f.createNewFile();
-            PrintWriter out = new PrintWriter(f);
             out.write(g.toJson(config));
-            out.close();
         } catch (IOException e) {
             Bukkit.getLogger().severe(e.getMessage());
         }
 
     }
 
-    List<T> getConfig() {
+    public List<T> getConfig() {
         return this.config;
     }
 

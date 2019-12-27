@@ -6,9 +6,13 @@ import de.events.EventsDAO;
 import de.models.Block;
 import de.models.Exp;
 import de.models.PlayerDAO;
+import de.models.PlayerWrapper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class AddCommand extends AbsCommand {
@@ -23,14 +27,24 @@ public class AddCommand extends AbsCommand {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if(!commandSender.hasPermission("op") || strings.length != 6)
+        if (!commandSender.hasPermission("op"))
             return false;
-        String entityName = strings[1].toUpperCase();
-        int entityID = Integer.parseInt(strings[2]);
-        int minExp = Integer.parseInt(strings[3]);
-        int maxExp = Integer.parseInt(strings[4]);
-        int count = Integer.parseInt(strings[5]);
+
+        if (commandSender instanceof Player)
+            return addIEntityPlayer((Player) commandSender, strings);
+        else
+            return addIEntityServer(commandSender, strings);
+
+    }
+
+    private boolean addIEntityPlayer(CommandSender commandSender, String[] strings) {
+        if (strings.length != 4)
+            return false;
+
         int eventIndex = Integer.parseInt(strings[0]);
+        int minExp = Integer.parseInt(strings[1]);
+        int maxExp = Integer.parseInt(strings[2]);
+        int count = Integer.parseInt(strings[3]);
 
         Class pluginEvent = EventsDAO.getInstance()
                 .getPluginEvents()
@@ -38,12 +52,51 @@ public class AddCommand extends AbsCommand {
                 .collect(Collectors.toList())
                 .get(eventIndex);
 
-        Exp newItem = new Block(entityName,entityID,count,minExp,maxExp);
+        Optional<PlayerWrapper> player = PlayerDAO.getInstance().getPlayerWrapper((Player) commandSender);
+        if (!player.isPresent())
+            return false;
+
+        String material = player.get().getStoredMaterial();
+        if (Objects.isNull(material)) {
+            commandSender.sendMessage("[MineBuilder] Use /mbgetid to select a material, use this command after");
+            return false;
+        }
+
+        Exp newItem = new Block(player.get().getStoredMaterial(), count, minExp, maxExp);
         ConfigDAO.getInstance().add(
                 pluginEvent
-                ,newItem);
-        PlayerDAO.getInstance().updateItem(pluginEvent,newItem);
+                , newItem);
+        PlayerDAO.getInstance().updateItem(pluginEvent, newItem);
+
+        player.get().setStoredMaterial(null);
+
         return true;
     }
+
+    private boolean addIEntityServer(CommandSender commandSender, String[] strings) {
+        if (strings.length != 6)
+            return false;
+
+
+        int eventIndex = Integer.parseInt(strings[0]);
+        String entityName = strings[1];
+        int minExp = Integer.parseInt(strings[2]);
+        int maxExp = Integer.parseInt(strings[3]);
+        int count = Integer.parseInt(strings[4]);
+
+        Class pluginEvent = EventsDAO.getInstance()
+                .getPluginEvents()
+                .map(AbsEvent::getClass)
+                .collect(Collectors.toList())
+                .get(eventIndex);
+
+        Exp newItem = new Block(entityName, count, minExp, maxExp);
+        ConfigDAO.getInstance().add(
+                pluginEvent
+                , newItem);
+        PlayerDAO.getInstance().updateItem(pluginEvent, newItem);
+        return true;
+    }
+
 
 }
