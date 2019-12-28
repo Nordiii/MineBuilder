@@ -1,5 +1,6 @@
 package de.models;
 
+import de.events.AbsEvent;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -17,9 +18,9 @@ public class PlayerDAO {
     private PlayerDAO() {
     }
 
-    private final Map<UUID, PlayerWrapper> players = new HashMap<UUID, PlayerWrapper>();
+    private final Map<UUID, PlayerWrapper> players = new HashMap<>();
 
-    public <T> void updateItem(Class<T> event, Exp item) {
+    public void updateItem(Class<? extends AbsEvent> event, Exp item) {
         players.forEach((k, p) -> p.updateItem(event, item));
     }
 
@@ -34,7 +35,7 @@ public class PlayerDAO {
     }
 
     public synchronized void addPlayer(Player player) {
-        players.put(player.getUniqueId(), new PlayerWrapper(player));
+        players.put(player.getUniqueId(), new PlayerWrapper());
     }
 
     public Optional<PlayerWrapper> getBlockInfo(Player player) {

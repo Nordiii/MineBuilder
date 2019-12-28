@@ -37,14 +37,14 @@ public class ConfigDAO {
         configs.forEach(IConfig::load);
     }
 
-    public <I> Optional<IEntity> get(Class<?> type, I item) {
+    public Optional<IEntity> get(Class<?> type, IEntity item) {
         return configs.stream()
                 .filter(c -> c.dealsWith(type))
                 .findFirst()
                 .map(c -> c.get(item));
     }
 
-    public <V> boolean add(Class<?> type, V item) {
+    public boolean add(Class<?> type, IEntity item) {
         boolean result = configs.stream()
                 .filter(c -> c.dealsWith(type))
                 .findFirst()

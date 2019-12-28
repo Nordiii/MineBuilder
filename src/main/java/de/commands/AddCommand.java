@@ -4,7 +4,7 @@ import de.config.ConfigDAO;
 import de.events.AbsEvent;
 import de.events.EventsDAO;
 import de.models.Block;
-import de.models.Exp;
+import de.models.IEntity;
 import de.models.PlayerDAO;
 import de.models.PlayerWrapper;
 import org.bukkit.command.Command;
@@ -31,7 +31,7 @@ public class AddCommand extends AbsCommand {
             return false;
 
         if (commandSender instanceof Player)
-            return addIEntityPlayer((Player) commandSender, strings);
+            return addIEntityPlayer(commandSender, strings);
         else
             return addIEntityServer(commandSender, strings);
 
@@ -46,7 +46,7 @@ public class AddCommand extends AbsCommand {
         int maxExp = Integer.parseInt(strings[2]);
         int count = Integer.parseInt(strings[3]);
 
-        Class pluginEvent = EventsDAO.getInstance()
+        Class<? extends AbsEvent> pluginEvent = EventsDAO.getInstance()
                 .getPluginEvents()
                 .map(AbsEvent::getClass)
                 .collect(Collectors.toList())
@@ -62,7 +62,7 @@ public class AddCommand extends AbsCommand {
             return false;
         }
 
-        Exp newItem = new Block(player.get().getStoredMaterial(), count, minExp, maxExp);
+        IEntity newItem = new Block(player.get().getStoredMaterial(), count, minExp, maxExp);
         ConfigDAO.getInstance().add(
                 pluginEvent
                 , newItem);
@@ -84,16 +84,17 @@ public class AddCommand extends AbsCommand {
         int maxExp = Integer.parseInt(strings[3]);
         int count = Integer.parseInt(strings[4]);
 
-        Class pluginEvent = EventsDAO.getInstance()
+        Class<? extends AbsEvent> pluginEvent = EventsDAO.getInstance()
                 .getPluginEvents()
                 .map(AbsEvent::getClass)
                 .collect(Collectors.toList())
                 .get(eventIndex);
 
-        Exp newItem = new Block(entityName, count, minExp, maxExp);
+        IEntity newItem = new Block(entityName, count, minExp, maxExp);
         ConfigDAO.getInstance().add(
                 pluginEvent
                 , newItem);
+
         PlayerDAO.getInstance().updateItem(pluginEvent, newItem);
         return true;
     }

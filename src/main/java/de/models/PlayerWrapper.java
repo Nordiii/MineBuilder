@@ -1,14 +1,13 @@
 package de.models;
 
+import de.events.AbsEvent;
 import de.events.EventsDAO;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PlayerWrapper {
-    private final Player player;
-    private final HashMap<Class, ArrayList<Exp>> configs = new HashMap<>();
+    private final HashMap<Class<? extends AbsEvent>, ArrayList<Exp>> configs = new HashMap<>();
     private String storedMaterial;
 
     public String getStoredMaterial() {
@@ -33,23 +32,21 @@ public class PlayerWrapper {
         this.storedMaterial = storedMaterial;
     }
 
-    public void updateItem(Class event, Exp item) {
+    public PlayerWrapper() {
+        this.addFlag = false;
+        EventsDAO.getInstance().getPluginEvents()
+                .forEach(event -> configs.put(event.getClass(), new ArrayList<>()));
+    }
+
+    public void updateItem(Class<? extends AbsEvent> event, Exp item) {
         configs.get(event).remove(item);
         configs.get(event).add(item);
     }
 
-    public PlayerWrapper(Player player) {
-        this.player = player;
-        this.addFlag = false;
-        EventsDAO.getInstance().getPluginEvents()
-                .forEach(event->configs.put(event.getClass(),new ArrayList<>()));
-    }
-
-    public <C> int getExp(Class<C> event,Exp item)
-    {
+    public <C> int getExp(Class<C> event, Exp item) {
         ArrayList<Exp> entities = configs.get(event);
 
-        if(!entities.contains(item))
+        if (!entities.contains(item))
             entities.add(item);
 
         return entities.stream()

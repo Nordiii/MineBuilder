@@ -46,6 +46,23 @@ public class Block extends IEntity {
         this.expMaxGain = 0;
     }
 
+    public Block(IEntity iEntity) {
+        if (!(iEntity instanceof Block)) {
+            this.name = "NO";
+            this.expInXBlocks = repeat = 0;
+            this.expMinGain = 0;
+            this.expMaxGain = 0;
+            return;
+        }
+        Block b = (Block) iEntity;
+
+        this.name = b.name;
+        this.expInXBlocks = repeat = b.expInXBlocks;
+        this.expMinGain = b.expMinGain;
+        this.expMaxGain = b.expMaxGain;
+
+    }
+
     @Override
     public String toString() {
         return "Block{" +

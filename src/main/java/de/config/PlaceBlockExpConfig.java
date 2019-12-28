@@ -2,8 +2,9 @@ package de.config;
 
 import de.events.BlockPlaceListener;
 import de.models.Block;
+import de.models.IEntity;
 
-public class PlaceBlockExpConfig extends AbsConfig<Block, Block> {
+public class PlaceBlockExpConfig extends AbsConfig {
 
     public PlaceBlockExpConfig() {
         super("placeBlockExp.json");
@@ -15,19 +16,19 @@ public class PlaceBlockExpConfig extends AbsConfig<Block, Block> {
     }
 
     @Override
-    public boolean add(Block value) {
+    public boolean add(IEntity value) {
         getConfig().remove(value);
         return getConfig().add(value);
     }
 
     @Override
-    public boolean set(Block key, Block newValue) {
-        getConfig().set(getConfig().indexOf(key),newValue);
+    public boolean set(IEntity key, IEntity newValue) {
+        getConfig().set(getConfig().indexOf(key), newValue);
         return true;
     }
 
     @Override
-    public Block get(Block id) {
+    public Block get(IEntity id) {
         return getConfig().stream()
                 .filter(id::equals)
                 .findAny()

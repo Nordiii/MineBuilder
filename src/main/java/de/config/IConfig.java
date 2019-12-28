@@ -3,16 +3,16 @@ package de.config;
 
 import de.models.IEntity;
 
-interface IConfig<V,K> {
+interface IConfig {
       void load();
 
       void save();
 
       <T> boolean dealsWith(Class<T> eventClass);
 
-      boolean add(V value);
+      boolean add(IEntity value);
 
-      boolean set(K key, V newValue);
+      boolean set(IEntity key, IEntity newValue);
 
-      IEntity get(K id);
+      IEntity get(IEntity key);
 }

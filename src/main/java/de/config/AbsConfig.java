@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import de.models.Block;
+import de.models.IEntity;
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -13,8 +14,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbsConfig<T, K> implements IConfig<T, K> {
-    private List<T> config;
+public abstract class AbsConfig implements IConfig {
+    private List<IEntity> config;
     private final String fileName;
     private final String path = "plugins/MineBuilder/";
 
@@ -44,7 +45,8 @@ public abstract class AbsConfig<T, K> implements IConfig<T, K> {
 
         File f = new File(path + fileName);
         try (PrintWriter out = new PrintWriter(f)) {
-            f.createNewFile();
+            if (!f.createNewFile())
+                throw new IOException("[MineBuilder] Config file '" + f.getCanonicalPath() + "' could not be created");
             out.write(g.toJson(config));
         } catch (IOException e) {
             Bukkit.getLogger().severe(e.getMessage());
@@ -52,7 +54,7 @@ public abstract class AbsConfig<T, K> implements IConfig<T, K> {
 
     }
 
-    public List<T> getConfig() {
+    public List<IEntity> getConfig() {
         return this.config;
     }
 

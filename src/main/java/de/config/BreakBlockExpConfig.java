@@ -3,10 +3,11 @@ package de.config;
 
 import de.events.BlockBreakListener;
 import de.models.Block;
+import de.models.IEntity;
 
-public class BreakBlockExpConfig extends AbsConfig<Block,Block>{
+public class BreakBlockExpConfig extends AbsConfig {
 
-    public BreakBlockExpConfig(){
+    public BreakBlockExpConfig() {
         super("blockBreakExp.json");
     }
 
@@ -17,19 +18,19 @@ public class BreakBlockExpConfig extends AbsConfig<Block,Block>{
     }
 
     @Override
-    public boolean add(Block value) {
+    public boolean add(IEntity value) {
         getConfig().remove(value);
         return getConfig().add(value);
     }
 
     @Override
-    public boolean set(Block key, Block newValue) {
-        getConfig().set(getConfig().indexOf(key),newValue);
+    public boolean set(IEntity key, IEntity newValue) {
+        getConfig().set(getConfig().indexOf(key), newValue);
         return true;
     }
 
     @Override
-    public Block get(Block block) {
+    public IEntity get(IEntity block) {
         return getConfig().stream()
                 .filter(block::equals)
                 .findAny()
