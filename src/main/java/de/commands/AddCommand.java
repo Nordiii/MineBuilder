@@ -46,6 +46,11 @@ public class AddCommand extends AbsCommand {
         int maxExp = Integer.parseInt(strings[2]);
         int count = Integer.parseInt(strings[3]);
 
+        if (minExp > maxExp) {
+            commandSender.sendMessage("[MineBuilder] The minimum exp to drop must be smaller or equals to the maximum exp");
+            return false;
+        }
+
         Class<? extends AbsEvent> pluginEvent = EventsDAO.getInstance()
                 .getPluginEvents()
                 .map(AbsEvent::getClass)
