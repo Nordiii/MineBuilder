@@ -45,8 +45,7 @@ public abstract class AbsConfig implements IConfig {
 
         File f = new File(path + fileName);
         try (PrintWriter out = new PrintWriter(f)) {
-            if (!f.createNewFile())
-                throw new IOException("[MineBuilder] Config file '" + f.getCanonicalPath() + "' could not be created");
+            boolean ignoreVal = f.createNewFile();
             out.write(g.toJson(config));
         } catch (IOException e) {
             Bukkit.getLogger().severe(e.getMessage());

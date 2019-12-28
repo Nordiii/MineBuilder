@@ -79,7 +79,7 @@ public class AddCommand extends AbsCommand {
     }
 
     private boolean addIEntityServer(CommandSender commandSender, String[] strings) {
-        if (strings.length != 6)
+        if (strings.length != 5)
             return false;
 
 
