@@ -17,9 +17,9 @@ public class Block extends IEntity {
 
     private int expInXBlocks;
 
-    public Block(String name, int expInXBlocks, int expMinGain, int expMaxGain) {
+    public Block(String name, int repeat, int expMinGain, int expMaxGain) {
         this.name = name;
-        this.expInXBlocks = repeat = expInXBlocks;
+        this.repeat = this.expInXBlocks = repeat;
         this.expMinGain = expMinGain;
         this.expMaxGain = expMaxGain;
 
@@ -27,13 +27,13 @@ public class Block extends IEntity {
 
     public Block(Block b) {
         this.name = b.name;
-        this.expInXBlocks = repeat = b.expInXBlocks;
+        this.expInXBlocks = this.repeat = b.repeat;
         this.expMinGain = b.expMinGain;
         this.expMaxGain = b.expMaxGain;
     }
     public Block(org.bukkit.block.Block b) {
         if (b == null) {
-            this.name = "NO";
+            this.name = null;
             this.expInXBlocks = repeat = 0;
             this.expMinGain = 0;
             this.expMaxGain = 0;
@@ -48,7 +48,7 @@ public class Block extends IEntity {
 
     public Block(IEntity iEntity) {
         if (!(iEntity instanceof Block)) {
-            this.name = "NO";
+            this.name = null;
             this.expInXBlocks = repeat = 0;
             this.expMinGain = 0;
             this.expMaxGain = 0;
@@ -57,17 +57,22 @@ public class Block extends IEntity {
         Block b = (Block) iEntity;
 
         this.name = b.name;
-        this.expInXBlocks = repeat = b.expInXBlocks;
+        this.expInXBlocks = repeat = b.repeat;
         this.expMinGain = b.expMinGain;
         this.expMaxGain = b.expMaxGain;
 
     }
 
     @Override
+    public String getID() {
+        return name;
+    }
+
+    @Override
     public String toString() {
         return "Block{" +
                 "name='" + name + '\'' +
-                ", blocksToBreak=" + repeat +
+                ", repeat=" + repeat +
                 ", expMinGain=" + expMinGain +
                 ", expMaxGain=" + expMaxGain +
                 '}';

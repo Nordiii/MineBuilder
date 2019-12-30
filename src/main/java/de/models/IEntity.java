@@ -11,4 +11,6 @@ public abstract class IEntity implements Exp {
     public abstract int getExp();
 
     public abstract void decrease();
+
+    public abstract String getID();
 }

@@ -10,7 +10,6 @@ import java.util.UUID;
 
 public class PlayerDAO {
     private static final PlayerDAO ourInstance = new PlayerDAO();
-
     public static PlayerDAO getInstance() {
         return ourInstance;
     }
@@ -20,11 +19,11 @@ public class PlayerDAO {
 
     private final Map<UUID, PlayerWrapper> players = new HashMap<>();
 
-    public void updateItem(Class<? extends AbsEvent> event, Exp item) {
+    public void updateItem(Class<? extends AbsEvent> event, IEntity item) {
         players.forEach((k, p) -> p.updateItem(event, item));
     }
 
-    public <T> int getExp(Class<T> config, Player player, Exp key) {
+    public int getExp(Class<? extends AbsEvent> config, Player player, IEntity key) {
         PlayerWrapper playerWrapper = players.get(player.getUniqueId());
 
         return (playerWrapper != null) ? playerWrapper.getExp(config, key) : 0;

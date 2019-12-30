@@ -3,11 +3,10 @@ package de.models;
 import de.events.AbsEvent;
 import de.events.EventsDAO;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PlayerWrapper {
-    private final HashMap<Class<? extends AbsEvent>, ArrayList<Exp>> configs = new HashMap<>();
+    private final HashMap<Class<? extends AbsEvent>, HashMap<String, IEntity>> configs = new HashMap<>();
     private String storedMaterial;
 
     public String getStoredMaterial() {
@@ -35,25 +34,22 @@ public class PlayerWrapper {
     public PlayerWrapper() {
         this.addFlag = false;
         EventsDAO.getInstance().getPluginEvents()
-                .forEach(event -> configs.put(event.getClass(), new ArrayList<>()));
+                .forEach(event -> configs.put(event.getClass(), new HashMap<>()));
     }
 
-    public void updateItem(Class<? extends AbsEvent> event, Exp item) {
-        configs.get(event).remove(item);
-        configs.get(event).add(item);
+    public void updateItem(Class<? extends AbsEvent> event, IEntity item) {
+        configs.get(event).put(item.getID(), item);
     }
 
-    public <C> int getExp(Class<C> event, Exp item) {
-        ArrayList<Exp> entities = configs.get(event);
+    public int getExp(Class<? extends AbsEvent> event, IEntity item) {
+        System.out.println(configs);
+        configs.putIfAbsent(event, new HashMap<>());
 
-        if (!entities.contains(item))
-            entities.add(item);
+        HashMap<String, IEntity> entities = configs.get(event);
 
-        return entities.stream()
-                .filter(item::equals)
-                .mapToInt(Exp::getExp)
-                .findAny()
-                .orElse(0);
+        entities.putIfAbsent(item.getID(), item);
+
+        return entities.get(item.getID()).getExp();
     }
 
 }

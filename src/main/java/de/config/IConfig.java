@@ -1,18 +1,22 @@
 package de.config;
 
 
+import de.events.AbsEvent;
 import de.models.IEntity;
+
 
 interface IConfig {
       void load();
 
       void save();
 
-      <T> boolean dealsWith(Class<T> eventClass);
+      Class<? extends AbsEvent> dealsWith();
 
-      boolean add(IEntity value);
+      void add(IEntity value);
 
-      boolean set(IEntity key, IEntity newValue);
+      boolean set(String key, IEntity newValue);
 
       IEntity get(IEntity key);
+
+      void printConfig();
 }

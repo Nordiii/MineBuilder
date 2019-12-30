@@ -1,40 +1,40 @@
 package de.config;
 
 
+import com.google.gson.reflect.TypeToken;
+import de.events.AbsEvent;
 import de.events.BlockBreakListener;
 import de.models.Block;
 import de.models.IEntity;
 
+import java.util.HashMap;
+
 public class BreakBlockExpConfig extends AbsConfig {
 
     public BreakBlockExpConfig() {
-        super("blockBreakExp.json");
+        super("blockBreakExp.json", TypeToken.getParameterized(HashMap.class, String.class, Block.class).getType());
     }
 
 
     @Override
-    public <T> boolean dealsWith(Class<T> eventClass) {
-        return eventClass == BlockBreakListener.class;
+    public Class<? extends AbsEvent> dealsWith() {
+        return BlockBreakListener.class;
     }
 
     @Override
-    public boolean add(IEntity value) {
-        getConfig().remove(value);
-        return getConfig().add(value);
+    public void add(IEntity value) {
+        getConfig().put(value.getID(), value);
     }
 
     @Override
-    public boolean set(IEntity key, IEntity newValue) {
-        getConfig().set(getConfig().indexOf(key), newValue);
+    public boolean set(String key, IEntity newValue) {
+        getConfig().put(key, newValue);
         return true;
     }
 
     @Override
-    public IEntity get(IEntity block) {
-        return getConfig().stream()
-                .filter(block::equals)
-                .findAny()
-                .map(Block::new).orElse(null);
+    public IEntity get(IEntity value) {
+        return new Block(getConfig().get(value.getID()));
 
     }
 

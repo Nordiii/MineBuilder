@@ -1,37 +1,38 @@
 package de.config;
 
+import com.google.gson.reflect.TypeToken;
+import de.events.AbsEvent;
 import de.events.BlockPlaceListener;
 import de.models.Block;
 import de.models.IEntity;
 
+import java.util.HashMap;
+
 public class PlaceBlockExpConfig extends AbsConfig {
 
     public PlaceBlockExpConfig() {
-        super("placeBlockExp.json");
+        super("placeBlockExp.json", TypeToken.getParameterized(HashMap.class, String.class, Block.class).getType());
     }
 
     @Override
-    public <T> boolean dealsWith(Class<T> eventClass) {
-        return eventClass == BlockPlaceListener.class;
+    public Class<? extends AbsEvent> dealsWith() {
+        return BlockPlaceListener.class;
+    }
+
+
+    @Override
+    public void add(IEntity value) {
+        getConfig().put(value.getID(), value);
     }
 
     @Override
-    public boolean add(IEntity value) {
-        getConfig().remove(value);
-        return getConfig().add(value);
-    }
-
-    @Override
-    public boolean set(IEntity key, IEntity newValue) {
-        getConfig().set(getConfig().indexOf(key), newValue);
+    public boolean set(String key, IEntity newValue) {
+        getConfig().put(key, newValue);
         return true;
     }
 
     @Override
-    public Block get(IEntity id) {
-        return getConfig().stream()
-                .filter(id::equals)
-                .findAny()
-                .map(Block::new).orElse(null);
+    public IEntity get(IEntity value) {
+        return new Block(getConfig().get(value.getID()));
     }
 }

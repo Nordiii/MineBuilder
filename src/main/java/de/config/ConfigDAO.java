@@ -1,17 +1,24 @@
 package de.config;
 
+import de.events.AbsEvent;
 import de.models.IEntity;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class ConfigDAO {
     private static ConfigDAO instance;
-    private final List<IConfig> configs = Arrays.asList(new BreakBlockExpConfig(), new PlaceBlockExpConfig());
+    private final Map<Class<? extends AbsEvent>, IConfig> configs = new HashMap<Class<? extends AbsEvent>, IConfig>() {
+        {
+            ;
+            put(new BreakBlockExpConfig().dealsWith(), new BreakBlockExpConfig());
+            put(new PlaceBlockExpConfig().dealsWith(), new PlaceBlockExpConfig());
+        }
+    };
 
     private ConfigDAO() {
         checkConfigFolder();
@@ -34,29 +41,23 @@ public class ConfigDAO {
     }
 
     public void loadConfig() {
-        configs.forEach(IConfig::load);
+        configs.values().forEach(IConfig::load);
     }
 
     public Optional<IEntity> get(Class<?> type, IEntity item) {
-        return configs.stream()
-                .filter(c -> c.dealsWith(type))
-                .findFirst()
-                .map(c -> c.get(item));
+        IEntity iEntity = configs.get(type).get(item);
+        if (iEntity.getID() == null)
+            return Optional.empty();
+        return Optional.ofNullable(iEntity);
     }
 
-    public boolean add(Class<?> type, IEntity item) {
-        boolean result = configs.stream()
-                .filter(c -> c.dealsWith(type))
-                .findFirst()
-                .map(c -> c.add(item))
-                .orElse(false);
+    public void add(Class<?> type, IEntity item) {
+        configs.get(type).add(item);
 
         save();
-
-        return result;
     }
 
     private void save() {
-        configs.forEach(IConfig::save);
+        configs.values().forEach(IConfig::save);
     }
 }
