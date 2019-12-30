@@ -13,4 +13,6 @@ public abstract class IEntity implements Exp {
     public abstract void decrease();
 
     public abstract String getID();
+
+    protected abstract void resetCount();
 }

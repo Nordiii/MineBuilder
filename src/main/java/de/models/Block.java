@@ -69,6 +69,11 @@ public class Block extends IEntity {
     }
 
     @Override
+    protected void resetCount() {
+        expInXBlocks = repeat;
+    }
+
+    @Override
     public String toString() {
         return "Block{" +
                 "name='" + name + '\'' +
@@ -95,7 +100,7 @@ public class Block extends IEntity {
     public int getExp() {
         decrease();
         if (expInXBlocks <= 0) {
-            expInXBlocks = repeat;
+            resetCount();
             return ThreadLocalRandom.current().nextInt(expMinGain, expMaxGain + 1);
         }
 

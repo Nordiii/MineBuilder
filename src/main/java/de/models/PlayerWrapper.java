@@ -4,9 +4,10 @@ import de.events.AbsEvent;
 import de.events.EventsDAO;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerWrapper {
-    private final HashMap<Class<? extends AbsEvent>, HashMap<String, IEntity>> configs = new HashMap<>();
+    private final HashMap<Class<? extends AbsEvent>, HashMap<String, IEntity>> playerSpecificConfig = new HashMap<>();
     private String storedMaterial;
 
     public String getStoredMaterial() {
@@ -34,18 +35,15 @@ public class PlayerWrapper {
     public PlayerWrapper() {
         this.addFlag = false;
         EventsDAO.getInstance().getPluginEvents()
-                .forEach(event -> configs.put(event.getClass(), new HashMap<>()));
+                .forEach(event -> playerSpecificConfig.put(event.getClass(), new HashMap<>()));
     }
 
     public void updateItem(Class<? extends AbsEvent> event, IEntity item) {
-        configs.get(event).put(item.getID(), item);
+        playerSpecificConfig.get(event).put(item.getID(), item);
     }
 
     public int getExp(Class<? extends AbsEvent> event, IEntity item) {
-        System.out.println(configs);
-        configs.putIfAbsent(event, new HashMap<>());
-
-        HashMap<String, IEntity> entities = configs.get(event);
+        Map<String, IEntity> entities = playerSpecificConfig.putIfAbsent(event, new HashMap<>());
 
         entities.putIfAbsent(item.getID(), item);
 
