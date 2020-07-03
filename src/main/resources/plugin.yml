@@ -1,6 +1,7 @@
 name: MineBuilder
 main: de.minebuilder.MineBuilder
 version: 0.1
+api-version: 1.15
 commands:
   mbToggleExp:
     description: Enables / Disables the Exp drops.
@@ -8,7 +9,7 @@ commands:
     permission-message: You don't have <permissions>
   mbAdd:
     description: Click on something and add it to the specified config. EventIDs  0 - break block  1 - place block
-    usage: /<command> <eventID zurzeit nur 0> <BlockName> <BlockID> <minEXP> <maxEXP> <count>
+    usage: /<command> <eventID zurzeit nur 0> <minEXP> <maxEXP> <count>
     permission-message: You don't have <permissions>
   mbGetId:
       description: Click on something and get the name + ID

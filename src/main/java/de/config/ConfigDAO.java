@@ -48,7 +48,7 @@ public class ConfigDAO {
         IEntity iEntity = configs.get(type).get(item);
         if (iEntity.getID() == null)
             return Optional.empty();
-        return Optional.ofNullable(iEntity);
+        return Optional.of(iEntity);
     }
 
     public void add(Class<?> type, IEntity item) {
