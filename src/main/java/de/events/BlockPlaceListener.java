@@ -33,6 +33,9 @@ public class BlockPlaceListener extends AbsEvent implements IEvent {
         int exp = PlayerDAO.getInstance().getExp(
                 this.getClass(), event.getPlayer(), block);
 
+        if (exp == 0)
+            return;
+
         //Drop reminder of exp divided by ten
         event.getBlock().getWorld()
                 .spawn(event.getBlock().getLocation().add(0, 1, 0), ExperienceOrb.class)
