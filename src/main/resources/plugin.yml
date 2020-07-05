@@ -7,14 +7,18 @@ commands:
     description: Enables / Disables the Exp drops.
     usage: /<command> [true,false]
     permission-message: You don't have <permissions>
-  mbAdd:
-    description: Click on something and add it to the specified config. EventIDs  0 - break block  1 - place block
-    usage: /<command> <eventID zurzeit nur 0> <minEXP> <maxEXP> <count>
+  mbAddBreak:
+    description: use /mbgetid and then this to add a block which drops exp on break.
+    usage: /<command> <minEXP> <maxEXP> <count>
+    permission-message: You don't have <permissions>
+  mbAddPlace:
+    description: use /mbgetid and then this to add a block which drops exp on place.
+    usage: /<command> <minEXP> <maxEXP> <count>
     permission-message: You don't have <permissions>
   mbGetId:
-      description: Click on something and get the name + ID
-      usage: /<command>
-      permission-message: You don't have <permissions>
+    description: Click on something and get the name + ID
+    usage: /<command>
+    permission-message: You don't have <permissions>
   mbLoadCfg:
     description: reloads the config
     usage: /<command>

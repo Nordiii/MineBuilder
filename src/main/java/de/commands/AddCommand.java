@@ -2,7 +2,6 @@ package de.commands;
 
 import de.config.ConfigDAO;
 import de.events.AbsEvent;
-import de.events.EventsDAO;
 import de.models.Block;
 import de.models.IEntity;
 import de.models.PlayerDAO;
@@ -13,11 +12,13 @@ import org.bukkit.entity.Player;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class AddCommand extends AbsCommand {
-    public AddCommand() {
-        super("mbAdd");
+    private final Class<? extends AbsEvent> pluginEvent;
+
+    public AddCommand(String name, Class<? extends AbsEvent> pluginEvent) {
+        super(name);
+        this.pluginEvent = pluginEvent;
     }
 
     @Override
@@ -38,24 +39,18 @@ public class AddCommand extends AbsCommand {
     }
 
     private boolean addIEntityPlayer(CommandSender commandSender, String[] strings) {
-        if (strings.length != 4)
+        if (strings.length != 3)
             return false;
 
-        int eventIndex = Integer.parseInt(strings[0]);
-        int minExp = Integer.parseInt(strings[1]);
-        int maxExp = Integer.parseInt(strings[2]);
-        int count = Integer.parseInt(strings[3]);
+        int minExp = Integer.parseInt(strings[0]);
+        int maxExp = Integer.parseInt(strings[1]);
+        int count = Integer.parseInt(strings[2]);
 
         if (minExp > maxExp) {
             commandSender.sendMessage("[MineBuilder] The minimum exp to drop must be smaller or equals to the maximum exp");
             return false;
         }
 
-        Class<? extends AbsEvent> pluginEvent = EventsDAO.getInstance()
-                .getPluginEvents()
-                .map(AbsEvent::getClass)
-                .collect(Collectors.toList())
-                .get(eventIndex);
 
         Optional<PlayerWrapper> player = PlayerDAO.getInstance().getPlayerWrapper((Player) commandSender);
         if (!player.isPresent())
@@ -79,26 +74,19 @@ public class AddCommand extends AbsCommand {
     }
 
     private boolean addIEntityServer(CommandSender commandSender, String[] strings) {
-        if (strings.length != 5)
+        if (strings.length != 4)
             return false;
 
 
-        int eventIndex = Integer.parseInt(strings[0]);
-        String entityName = strings[1];
-        int minExp = Integer.parseInt(strings[2]);
-        int maxExp = Integer.parseInt(strings[3]);
-        int count = Integer.parseInt(strings[4]);
+        String entityName = strings[0];
+        int minExp = Integer.parseInt(strings[1]);
+        int maxExp = Integer.parseInt(strings[2]);
+        int count = Integer.parseInt(strings[3]);
 
         if (minExp > maxExp) {
             commandSender.sendMessage("[MineBuilder] The minimum exp to drop must be smaller or equals to the maximum exp");
             return false;
         }
-
-        Class<? extends AbsEvent> pluginEvent = EventsDAO.getInstance()
-                .getPluginEvents()
-                .map(AbsEvent::getClass)
-                .collect(Collectors.toList())
-                .get(eventIndex);
 
         IEntity newItem = new Block(entityName, count, minExp, maxExp);
         ConfigDAO.getInstance().add(
