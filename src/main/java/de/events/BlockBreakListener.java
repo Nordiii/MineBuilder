@@ -1,6 +1,7 @@
 package de.events;
 
 import de.config.ConfigDAO;
+import de.minebuilder.Settings;
 import de.models.Block;
 import de.models.IEntity;
 import de.models.PlayerDAO;
@@ -10,11 +11,18 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import java.util.Optional;
 
+import static de.minebuilder.Settings.path.DISABLE_BREAK;
+import static de.minebuilder.Settings.path.SET_DEFAULT_EXP_0_BREAK;
+
 public class BlockBreakListener extends AbsEvent implements IEvent {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
-        e.setExpToDrop(0);
+
+        if (Settings.getConfig().getBoolean(SET_DEFAULT_EXP_0_BREAK.path))
+            e.setExpToDrop(0);
+        if (Settings.getConfig().getBoolean(DISABLE_BREAK.path))
+            return;
         Optional<IEntity> b = ConfigDAO.getInstance().get(this.getClass(), new Block(e.getBlock()));
         b.ifPresent(block -> setExp(e, block));
     }

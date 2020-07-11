@@ -1,0 +1,7 @@
+disable:
+  break: false
+  place: false
+  kill: false
+set-default-exp-to-zero:
+  break: true
+  kill: true

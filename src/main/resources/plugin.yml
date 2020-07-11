@@ -15,6 +15,10 @@ commands:
     description: use /mbgetid and then this to add a block which drops exp on place.
     usage: /<command> <minEXP> <maxEXP> <count>
     permission-message: You don't have <permissions>
+  mbAddKill:
+    description: use /mbgetid and then this to set the exp a Mob drops exp on kill.
+    usage: /<command> <minEXP> <maxEXP> <count>
+    permission-message: You don't have <permissions>
   mbGetId:
     description: Click on something and get the name + ID
     usage: /<command>

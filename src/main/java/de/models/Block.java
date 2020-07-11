@@ -1,6 +1,7 @@
 package de.models;
 
 import com.google.gson.annotations.Expose;
+import org.bukkit.entity.EntityType;
 
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
@@ -31,6 +32,14 @@ public class Block extends IEntity {
         this.expMinGain = b.expMinGain;
         this.expMaxGain = b.expMaxGain;
     }
+
+    public Block(EntityType entityType) {
+        this.name = entityType.name();
+        repeat = 0;
+        expMinGain = 0;
+        expMaxGain = 0;
+    }
+
     public Block(org.bukkit.block.Block b) {
         if (b == null) {
             this.name = null;

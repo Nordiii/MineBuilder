@@ -7,9 +7,18 @@ import de.models.PlayerDAO;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
 public class MineBuilder extends JavaPlugin {
 
-    public void onEnable(){
+    public void onEnable() {
+        File settings = new File(getDataFolder(), "settings.yml");
+        if (!settings.exists()) {
+            this.saveResource("settings.yml", false);
+            settings = new File(getDataFolder(), "settings.yml");
+        }
+
+        Settings.createInstance(new File(getDataFolder(), "settings.yml"));
         CommandDAO.loadInstance();
         ConfigDAO.getInstance();
         EventsDAO.getInstance()

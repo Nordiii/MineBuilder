@@ -14,9 +14,9 @@ public class ConfigDAO {
     private static ConfigDAO instance;
     private final Map<Class<? extends AbsEvent>, IConfig> configs = new HashMap<Class<? extends AbsEvent>, IConfig>() {
         {
-            ;
             put(new BreakBlockExpConfig().dealsWith(), new BreakBlockExpConfig());
             put(new PlaceBlockExpConfig().dealsWith(), new PlaceBlockExpConfig());
+            put(new EntityDeathExpConfig().dealsWith(), new EntityDeathExpConfig());
         }
     };
 

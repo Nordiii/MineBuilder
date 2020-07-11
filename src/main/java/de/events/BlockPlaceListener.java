@@ -1,6 +1,7 @@
 package de.events;
 
 import de.config.ConfigDAO;
+import de.minebuilder.Settings;
 import de.models.Block;
 import de.models.IEntity;
 import de.models.PlayerDAO;
@@ -12,11 +13,15 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
+import static de.minebuilder.Settings.path.DISABLE_PLACE;
+
 public class BlockPlaceListener extends AbsEvent implements IEvent {
+
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
-
+        if (Settings.getConfig().getBoolean(DISABLE_PLACE.path))
+            return;
 
         Optional<IEntity> b = ConfigDAO.getInstance().get(this.getClass(), new Block(e.getBlock()));
         b.ifPresent(block -> setExp(e, block));
