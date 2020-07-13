@@ -4,6 +4,7 @@ import de.commands.CommandDAO;
 import de.config.ConfigDAO;
 import de.events.EventsDAO;
 import de.models.PlayerDAO;
+import de.protection.Protection;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,10 +16,10 @@ public class MineBuilder extends JavaPlugin {
         File settings = new File(getDataFolder(), "settings.yml");
         if (!settings.exists()) {
             this.saveResource("settings.yml", false);
-            settings = new File(getDataFolder(), "settings.yml");
+            new File(getDataFolder(), "settings.yml");
         }
-
         Settings.createInstance(new File(getDataFolder(), "settings.yml"));
+        Protection.createInstance(this);
         CommandDAO.loadInstance();
         ConfigDAO.getInstance();
         EventsDAO.getInstance()

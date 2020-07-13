@@ -2,6 +2,7 @@ name: MineBuilder
 main: de.minebuilder.MineBuilder
 version: 0.1
 api-version: 1.15
+softdepend: [WorldGuard]
 commands:
   mbToggleExp:
     description: Enables / Disables the Exp drops.

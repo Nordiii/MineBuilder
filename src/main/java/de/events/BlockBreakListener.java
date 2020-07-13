@@ -28,7 +28,7 @@ public class BlockBreakListener extends AbsEvent implements IEvent {
     }
 
     private void setExp(BlockBreakEvent event, IEntity block) {
-        if (Protection.getInstance().isProtected(event.getBlock()))
+        if (Protection.getInstance().isProtected(event.getPlayer(), event.getBlock()))
             return;
 
         event.setExpToDrop(PlayerDAO.getInstance().getExp(this.getClass(), event.getPlayer(), block));

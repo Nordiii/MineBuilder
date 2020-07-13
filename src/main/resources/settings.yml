@@ -1,7 +1,12 @@
+#Stop MineBuilder from calculating and setting the EXP
 disable:
   break: false
   place: false
   kill: false
+#Setting these to false will opt for the default exp drops when no exp is specified for MineBuilder
+#This works even when disabled <event>: true is set.
 set-default-exp-to-zero:
   break: true
   kill: true
+#Number of blocks before the first placed block gives exp again (The last 400 blocks would not give exp when broken)
+protect-blocks-count: 400

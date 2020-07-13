@@ -13,7 +13,7 @@ public class Settings {
 
     private Settings(File config) {
         file = config;
-        this.config = YamlConfiguration.loadConfiguration(file);
+        Settings.config = YamlConfiguration.loadConfiguration(file);
     }
 
     public static FileConfiguration getConfig() {
@@ -27,7 +27,7 @@ public class Settings {
         return instance;
     }
 
-    public static synchronized Settings loadInstance() {
+    public static synchronized Settings getInstance() {
         return Objects.requireNonNull(instance);
     }
 
@@ -40,7 +40,8 @@ public class Settings {
         DISABLE_BREAK("disable.break"),
         SET_DEFAULT_EXP_0_BREAK("set-default-exp-to-zero.break"),
         DISABLE_KILL("disable.kill"),
-        SET_DEFAULT_EXP_0_KILL("set-default-exp-to-zero.kill");
+        SET_DEFAULT_EXP_0_KILL("set-default-exp-to-zero.kill"),
+        PROTECTION_COUNT("protect-blocks-count");
 
         public final String path;
 

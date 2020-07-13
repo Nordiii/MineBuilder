@@ -22,7 +22,9 @@ public class BlockPlaceListener extends AbsEvent implements IEvent {
     public void onBlockPlace(BlockPlaceEvent e) {
         if (Settings.getConfig().getBoolean(DISABLE_PLACE.path))
             return;
-
+        if (Protection.getInstance().isProtected(e.getPlayer(), e.getBlock())) {
+            return;
+        }
         Optional<IEntity> b = ConfigDAO.getInstance().get(this.getClass(), new Block(e.getBlock()));
         b.ifPresent(block -> setExp(e, block));
 
@@ -31,9 +33,6 @@ public class BlockPlaceListener extends AbsEvent implements IEvent {
     }
 
     private void setExp(BlockPlaceEvent event, IEntity block) {
-        if (Protection.getInstance().isProtected(event.getBlock())) {
-            return;
-        }
 
         int exp = PlayerDAO.getInstance().getExp(
                 this.getClass(), event.getPlayer(), block);
