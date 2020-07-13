@@ -4,10 +4,6 @@ version: 0.1
 api-version: 1.15
 softdepend: [WorldGuard]
 commands:
-  mbToggleExp:
-    description: Enables / Disables the Exp drops.
-    usage: /<command> [true,false]
-    permission-message: You don't have <permissions>
   mbAddBreak:
     description: use /mbgetid and then this to add a block which drops exp on break.
     usage: /<command> <minEXP> <maxEXP> <count>
